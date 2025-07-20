@@ -7,3 +7,28 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+model Spent {
+  id          String   @id @default(uuid())
+  date        DateTime 
+  description String?
+  amount      Float
+  category    Category
+  payMode     PayMode  @map("pay_mode")
+
+  @@map("spents")
+}
+
+enum Category {
+  FOOD
+  TRANSPORT
+  ENTERTAINMENT
+  BILLS
+  OTHER
+}
+
+enum PayMode {
+  PIX
+  CARD
+  OTHER
+}

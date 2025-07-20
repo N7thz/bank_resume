@@ -10,31 +10,9 @@ import { Form } from "@/components/forms/form-root"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-
-const formRegisterSpentSchema = z.object({
-	date: z.date(),
-	category: z.enum(["FOOD", "TRANSPORT", "ENTERTAINMENT", "BILLS", "OTHER"]),
-	description: z
-		.string()
-		.min(1, "A descrição é obrigatória")
-		.optional(),
-	amount: z
-		.string()
-		.min(1, "O valor é obrigatório")
-		.refine(
-			(val) => {
-				const num = Number(val)
-				return !isNaN(num) && num > 0
-			},
-			{
-				message: "O valor precisa ser um número positivo",
-			},
-		),
-	payMode: z.enum(["PIX", "CARD", "OTHER"]),
-})
-
-export type FormRegisterSpentProps = z.infer<typeof formRegisterSpentSchema>
+import { 
+	FormRegisterSpentProps, formRegisterSpentSchema 
+} from "@/schemas/form-register-spend-schema"
 
 export const FormRegisterSpent = () => {
 	const form = useForm<FormRegisterSpentProps>({
@@ -45,9 +23,8 @@ export const FormRegisterSpent = () => {
 
 	function onSubmit(data: FormRegisterSpentProps) {
 		console.log(data, "sucess")
+		alert("sucess")
 	}
-
-	console.log(errors)
 
 	return (
 		<Form

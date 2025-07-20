@@ -8,26 +8,40 @@ import {
 } from "@/components/ui/popover"
 import { useState } from "react"
 import { useFormContext } from "react-hook-form"
-import { FormRegisterSpentProps } from "./forms/form-register-spent"
+import { cn } from "@/lib/utils"
+import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
 
 export const DatePicker = () => {
 
 	const [open, setOpen] = useState(false)
 
-	const { setValue, watch } = useFormContext<FormRegisterSpentProps>()
+	const {
+		setValue, watch, formState: { errors }
+	} = useFormContext<FormRegisterSpentProps>()
 
 	const date = watch("date")
 
 	return (
-		<div className="flex flex-col gap-3 w-full">
+		<div className={cn(
+			"flex flex-col gap-3 w-full",
+			errors.date && "border border-destructive rounded-lg"
+		)}>
 			<Popover open={open} onOpenChange={setOpen}>
 				<PopoverTrigger asChild>
 					<Button
 						variant="outline"
-						id="date"
-						className="w-full justify-between font-normal"
+						className={cn(
+							"w-full justify-between font-normal",
+							errors.date && "text-destructive"
+						)}
 					>
-						{date ? date.toLocaleDateString() : "Selecione a data"}
+						{
+							date
+								? date.toLocaleDateString()
+								: errors.date
+									? errors.date.message
+									: "Selecione a data"
+						}
 						<ChevronDownIcon />
 					</Button>
 				</PopoverTrigger>

@@ -3,17 +3,32 @@ import {
 	SelectContent,
 	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
 import { CarFront, Clapperboard, Hamburger, Plus, Receipt } from "lucide-react"
+import { useFormContext } from "react-hook-form"
+import { cn } from "@/lib/utils"
+import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
+
+type Categories = "FOOD" | "TRANSPORT" | "ENTERTAINMENT" | "BILLS" | "OTHER"
 
 export const SelectCategory = () => {
+
+	const {
+		setValue, formState: { errors }
+	} = useFormContext<FormRegisterSpentProps>()
+
 	return (
-		<Select>
-			<SelectTrigger className="w-full">
-				<SelectValue placeholder="Categoria do gasto" />
+		<Select
+			onValueChange={(category) => setValue("category", category as Categories)}
+		>
+			<SelectTrigger className={cn(
+				"w-full", errors.category && "border border-destructive rounded-lg data-[placeholder]:text-destructive"
+			)}>
+				<SelectValue placeholder={
+					errors.category ? errors.category.message : "Categoria do gasto"
+				} />
 			</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>
