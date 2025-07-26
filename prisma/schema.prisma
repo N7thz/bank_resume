@@ -20,6 +20,26 @@ model Spent {
   @@map("spents")
 }
 
+model Balance {
+  id          String   @id @default(uuid())
+  balance     Float
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  bank        Bank
+
+  @@map("balances")
+}
+
+enum Bank {
+  ITAU
+  BRADESCO
+  CAIXA
+  SANTANDER
+  BANCO_DO_BRASIL
+  INTER
+  NUBANK
+  OTHER
+}
+
 enum Category {
   FOOD
   TRANSPORT
