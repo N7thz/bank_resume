@@ -6,6 +6,10 @@ export const formRegisterSpentSchema = z.object({
     date: z.date({
         error: issue => issue.input === undefined ? "A data é obrigatória" : "Invalid date"
     }),
+    time: z
+        .string()
+        .min(1, "O horário é obrigatório")
+        .length(5, "O horário deve ter o formato HH:MM"),
     category: z
         .enum(
             ["FOOD", "TRANSPORT", "ENTERTAINMENT", "BILLS", "OTHER"],

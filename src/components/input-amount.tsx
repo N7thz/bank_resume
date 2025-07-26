@@ -8,15 +8,24 @@ import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
 export const InputAmount = () => {
 
 	const {
-		register, formState: { errors }
+		register,
+		watch,
+		formState: { errors }
 	} = useFormContext<FormRegisterSpentProps>()
+
+	const amount = watch("amount")
 
 	const id = useId()
 
 	return (
 		<div className="*:not-first:mt-2">
 			<Label htmlFor={id}>Valor gasto</Label>
-			<div className={cn("relative", errors.amount && "border border-destructive rounded-lg")}>
+			<div className={cn(
+				"relative",
+				(errors.amount && amount == undefined)
+					? "border border-destructive rounded-lg"
+					: Number(amount) > 0 && "border border-sucess rounded-lg"
+			)}>
 				<Input
 					id={id}
 					type="number"

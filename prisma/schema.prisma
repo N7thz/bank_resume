@@ -11,6 +11,7 @@ datasource db {
 model Spent {
   id          String   @id @default(uuid())
   date        DateTime 
+  time        String
   description String?
   amount      Float
   category    Category

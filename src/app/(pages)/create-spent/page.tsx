@@ -7,6 +7,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+	title: "Bank Resume - Registrar Gastos",
+}
 
 export default async function Home() {
 	return (
