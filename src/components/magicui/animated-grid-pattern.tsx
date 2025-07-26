@@ -57,15 +57,15 @@ export function AnimatedGridPattern({
     }));
   }
 
-  // Function to update a single square's position
+  // Function to update a single square"s position
   const updateSquarePosition = (id: number) => {
     setSquares((currentSquares) =>
       currentSquares.map((sq) =>
         sq.id === id
           ? {
-              ...sq,
-              pos: getPos(),
-            }
+            ...sq,
+            pos: getPos(),
+          }
           : sq,
       ),
     );

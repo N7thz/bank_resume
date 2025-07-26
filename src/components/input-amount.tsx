@@ -29,6 +29,7 @@ export const InputAmount = () => {
 				<Input
 					id={id}
 					type="number"
+					step={"0.1"}
 					className={cn(
 						"peer ps-6 pe-12",
 						errors.amount && "placeholder:text-destructive"

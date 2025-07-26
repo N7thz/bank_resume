@@ -13,7 +13,9 @@ import {
 	FormRegisterSpentProps, formRegisterSpentSchema
 } from "@/schemas/form-register-spend-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
 import { Check, X } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
@@ -28,32 +30,38 @@ export const FormRegisterSpent = () => {
 		handleSubmit,
 	} = form
 
+	const { push } = useRouter()
+
+	const { isPending, mutate } = useMutation({
+		mutationKey: ["create-spent"],
+		mutationFn: async (data: FormRegisterSpentProps) => createSpent(data),
+		onSuccess: () => toast(
+			"Sucesso",
+			{
+				icon: <Check className="size-4 text-primary" />,
+				style: {
+					border: "1px solid oklch(51.1% 0.262 276.966)",
+				},
+				onAutoClose: () => push("/"),
+				description: "Gasto registrado com sucesso!",
+				duration: 2000
+			}
+		),
+		onError: () => toast(
+			"Error",
+			{
+				icon: <X className="size-4 text-primary" />,
+				style: {
+					border: "1px solid oklch(51.1% 0.262 276.966)",
+				},
+				description: "Erro ao registrar gasto!",
+				duration: 2000
+			}
+		)
+	})
+
 	function onSubmit(data: FormRegisterSpentProps) {
-		createSpent(data)
-			.then(() => toast(
-				"Sucesso",
-				{
-					icon: <Check className="size-4 text-primary" />,
-					style: {
-						border: "1px solid oklch(51.1% 0.262 276.966)",
-					},
-					onAutoClose: () => console.log("Toast closed"),
-					description: "Gasto registrado com sucesso!",
-					duration: 2000
-				}
-			))
-			.catch(() => toast(
-				"Error",
-				{
-					icon: <X className="size-4 text-primary" />,
-					style: {
-						border: "1px solid oklch(51.1% 0.262 276.966)",
-					},
-					onAutoClose: () => console.log("Toast closed"),
-					description: "Erro ao registrar gasto!",
-					duration: 2000
-				}
-			))
+		mutate(data)
 	}
 
 	return (
@@ -71,12 +79,13 @@ export const FormRegisterSpent = () => {
 				<Textarea
 					{...register("description")}
 					placeholder="Descrição do motivo da compra"
-					className="max-h-42"
+					className="max-h-42 mt-2"
 				/>
 			</Label>
 			<Button
 				type="submit"
 				className="w-full"
+				disabled={isPending}
 			>
 				Confirmar
 			</Button>

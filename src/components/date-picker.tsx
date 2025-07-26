@@ -28,8 +28,14 @@ export const DatePicker = () => {
 	const time = watch("time")
 
 	useEffect(() => {
-		(date && time) && setOpen(false)
-	}, [date, time])
+
+		if (date && time)
+			setOpen(false)
+
+		if (errors.date || errors.time)
+			setOpen(true)
+
+	}, [date, time, errors])
 
 	return (
 		<div className={cn(
