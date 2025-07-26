@@ -1,4 +1,5 @@
 import { Background } from "@/components/background"
+import { Header } from "@/components/header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
@@ -18,7 +19,7 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	
+
 	return (
 		<html lang="pt-BR" suppressHydrationWarning>
 			<body className={cn(
@@ -31,7 +32,12 @@ export default function RootLayout({
 				>
 					<Background />
 					<Toaster />
-					{children}
+					<div className="flex-1 flex flex-col">
+						<Header />
+						<div className="p-8 flex-1 flex">
+							{children}
+						</div>
+					</div>
 				</ThemeProvider>
 			</body>
 		</html>

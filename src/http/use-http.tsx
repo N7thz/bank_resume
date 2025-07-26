@@ -3,5 +3,12 @@ import api from "@/http"
 import { Spent } from "@prisma/client"
 
 export function createSpent(data: FormRegisterSpentProps) {
-    return api.post<Spent>("/create-spent", data)
+    return api.post<Spent>("/spents", data)
+}
+
+export async function getSpents() {
+
+    const response = await api.get<Spent[]>("/spents")
+
+    return response.data
 }

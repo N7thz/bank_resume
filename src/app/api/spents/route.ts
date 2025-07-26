@@ -4,6 +4,13 @@ import {
 } from "@/schemas/form-register-spend-schema"
 import { prisma } from "@/lib/prisma"
 
+export async function GET() {
+
+    const spents = await prisma.spent.findMany()
+
+    return NextResponse.json(spents)
+}
+
 export async function POST(request: NextRequest) {
 
     const {
