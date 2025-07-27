@@ -7,13 +7,12 @@ import {
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import * as React from "react"
 
+export const queryClient = new QueryClient()
+
 export function ThemeProvider({
 	children,
 	...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
-
-	const queryClient = new QueryClient()
-
 	return (
 		<QueryClientProvider client={queryClient}>
 			<NextThemesProvider {...props}>

@@ -1,18 +1,17 @@
 "use client"
 
+import { BalanceCard } from "@/components/balance-card"
+import { BalanceMonthCard } from "@/components/balance-month-card"
 import {
     Card, CardContent, CardDescription, CardHeader,
     CardTitle
 } from "@/components/ui/card"
-import { getSpents } from "@/http/use-http"
-import { useQuery } from "@tanstack/react-query"
+import { useFindSpents } from "@/hooks/use-find-spents"
+import { cn } from "@/lib/utils"
 
 export default function Home() {
 
-    const { data: spents, isLoading } = useQuery({
-        queryKey: ["find-spents"],
-        queryFn: async () => getSpents(),
-    })
+    const { spents, isLoading } = useFindSpents()
 
     if (isLoading || !spents) {
         return <div>Loading...</div>
@@ -28,26 +27,12 @@ export default function Home() {
                     Resumo dos gastos feitos no mês
                 </CardDescription>
             </CardHeader>
-            <CardContent className="flex gap-4">
-                <Card className="w-1/3 h-full">
-                    <CardHeader>
-                        <CardTitle>
-                            Dados
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        
-                    </CardContent>
-                </Card>
-                <Card className="w-2/3">
-                    <CardHeader>
-                        <CardTitle>
-                            Gráficos
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                    </CardContent>
-                </Card>
+            <CardContent className={cn("flex gap-4", "max-md:flex-col")}>
+                <BalanceCard className="max-md:w-full" />
+                <BalanceMonthCard
+                    spents={spents}
+                    className="max-md:w-full"
+                />
             </CardContent>
         </Card>
     )

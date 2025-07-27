@@ -11,6 +11,7 @@ import { useFormContext } from "react-hook-form"
 import { cn } from "@/lib/utils"
 import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
 import { PayMode } from "@prisma/client"
+import { payModes } from "@/utils/pay-mode"
 
 export const SelectPayMode = () => {
 
@@ -40,18 +41,18 @@ export const SelectPayMode = () => {
 			</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>
-					<SelectItem value="PIX">
-						PIX
-						<Landmark className="text-primary size-4" />
-					</SelectItem>
-					<SelectItem value="CARD">
-						Cartão de débito
-						<CreditCard className="text-primary size-4" />
-					</SelectItem>
-					<SelectItem value="OTHER">
-						Outros
-						<BanknoteArrowUp className="text-primary size-4" />
-					</SelectItem>
+					{
+						payModes.map(({ text, value, Icon }) => (
+							<SelectItem
+								key={value}
+								value={value}
+								className="capitalize"
+							>
+								{text}
+								<Icon className="text-primary size-4" />
+							</SelectItem>
+						))
+					}
 				</SelectGroup>
 			</SelectContent>
 		</Select>

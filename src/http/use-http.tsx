@@ -1,14 +1,28 @@
-import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
 import api from "@/http"
+import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
 import { Spent } from "@prisma/client"
 
 export function createSpent(data: FormRegisterSpentProps) {
     return api.post<Spent>("/spents", data)
 }
 
-export async function getSpents() {
+type GetSpentsProps = {
+    year?: number
+    month?: number
+}
 
-    const response = await api.get<Spent[]>("/spents")
+export async function getSpents({
+    year = new Date().getFullYear(),
+    month = new Date().getMonth()
+}: GetSpentsProps) {
+
+    const url = `/spents?year=${year}&month=${month}`
+
+    const response = await api.get<Spent[]>(url)
 
     return response.data
+}
+
+export async function deleteSpent(id: string) {
+    return await api.delete(`/spents/${id}`)
 }

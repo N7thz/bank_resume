@@ -30,7 +30,7 @@ export function ModeToggle() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
 				align="end"
-				className="dark:bg-neutral-950/50"
+				className="bg-card border border-indigo-400"
 			>
 				<DropdownMenuItem onClick={() => setTheme("light")}>
 					Claro

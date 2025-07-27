@@ -6,11 +6,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-import { CarFront, Clapperboard, Hamburger, Plus, Receipt } from "lucide-react"
-import { useFormContext } from "react-hook-form"
 import { cn } from "@/lib/utils"
 import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
+import { categories } from "@/utils/categories"
 import { Category } from "@prisma/client"
+import { useFormContext } from "react-hook-form"
 
 export const SelectCategory = () => {
 
@@ -40,26 +40,18 @@ export const SelectCategory = () => {
 			</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>
-					<SelectItem value="FOOD">
-						Alimentação
-						<Hamburger className="text-primary size-4" />
-					</SelectItem>
-					<SelectItem value="TRANSPORT">
-						Transporte
-						<CarFront className="text-primary size-4" />
-					</SelectItem>
-					<SelectItem value="ENTERTAINMENT">
-						Entreterimento
-						<Clapperboard className="text-primary size-4" />
-					</SelectItem>
-					<SelectItem value="BILLS">
-						Contas
-						<Receipt className="text-primary size-4" />
-					</SelectItem>
-					<SelectItem value="OTHER">
-						Outros
-						<Plus className="text-primary size-4" />
-					</SelectItem>
+					{
+						categories.map(({ Icon, text, value }) => (
+							<SelectItem
+								key={value}
+								value={value}
+								className="capitalize"
+							>
+								{text}
+								<Icon className="text-primary size-4" />
+							</SelectItem>
+						))
+					}
 				</SelectGroup>
 			</SelectContent>
 		</Select>
