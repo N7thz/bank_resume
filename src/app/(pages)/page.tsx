@@ -1,7 +1,7 @@
 "use client"
 
 import { BalanceCard } from "@/components/balance-card"
-import { BalanceMonthCard } from "@/components/balance-month-card"
+import { BalanceMonthCard } from "@/components/balance-month-card/balance-month-card"
 import {
     Card, CardContent, CardDescription, CardHeader,
     CardTitle
