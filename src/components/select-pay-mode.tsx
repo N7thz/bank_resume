@@ -6,14 +6,18 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-import { BanknoteArrowUp, CreditCard, Landmark } from "lucide-react"
-import { useFormContext } from "react-hook-form"
 import { cn } from "@/lib/utils"
 import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
-import { PayMode } from "@prisma/client"
 import { payModes } from "@/utils/pay-mode"
+import { PayMode } from "@prisma/client"
+import { ComponentProps } from "react"
+import { useFormContext } from "react-hook-form"
 
-export const SelectPayMode = () => {
+type SelectPayModeProps = ComponentProps<typeof Select> & {
+	className?: string
+}
+
+export const SelectPayMode = ({ className, ...props }: SelectPayModeProps) => {
 
 	const {
 		setValue,
@@ -23,15 +27,21 @@ export const SelectPayMode = () => {
 
 	const payMode = watch("payMode")
 
+	function onValueChange(payMode: string) {
+		setValue("payMode", payMode as PayMode)
+	}
+
 	return (
-		<Select onValueChange={
-			(payMode) => setValue("payMode", payMode as PayMode)
-		}>
+		<Select
+			onValueChange={onValueChange}
+			{...props}
+		>
 			<SelectTrigger className={cn(
-				"w-full",
+				"w-full capitalize",
 				(errors.payMode && payMode === undefined) &&
 				"border border-destructive rounded-lg data-[placeholder]:text-destructive",
-				payMode !== undefined && "border border-sucess rounded-lg"
+				payMode !== undefined && "border border-sucess rounded-lg",
+				className
 			)}>
 				<SelectValue placeholder={
 					errors.payMode

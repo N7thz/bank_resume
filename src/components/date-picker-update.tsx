@@ -14,7 +14,7 @@ import { ChevronDownIcon, Clock } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 
-export const DatePicker = () => {
+export const DatePickerUpdate = () => {
 
 	const [open, setOpen] = useState(false)
 
@@ -22,54 +22,29 @@ export const DatePicker = () => {
 		setValue,
 		watch,
 		register,
-		formState: { errors }
 	} = useFormContext<FormRegisterSpentProps>()
 
 	const date = watch("date")
 	const time = watch("time")
 
 	useEffect(() => {
-
-		if (date && time) setTimeout(() => setOpen(false), 1000)
-
-		if (errors.date || errors.time) setOpen(true)
-
-	}, [date, time, errors])
-
-	function onSelect(date: Date | undefined) {
-		date != undefined && setValue("date", date)
-	}
+		if (date && time) setOpen(false)
+	}, [date, time])
 
 	return (
-		<div className={cn(
-			"flex flex-col gap-3 w-full",
-			(
-				(errors.date || errors.time) &&
-				(!isDate(date) || time === undefined)
-			) ? "border border-destructive rounded-lg"
-				: (isDate(date) && time !== undefined)
-				&& "border border-sucess rounded-lg"
-		)}>
-			<Popover open={open} onOpenChange={setOpen}>
+		<div className="flex flex-col gap-3 w-full">
+			<Popover
+				open={open}
+				onOpenChange={setOpen}
+			>
 				<PopoverTrigger asChild>
 					<Button
 						variant="outline"
-						className={cn(
-							"w-full justify-between font-normal",
-							(
-								errors.date &&
-								(!isDate(date) || time === undefined)
-							) &&
-							"text-destructive",
-							isDate(date) && "text-primary-foreground"
-						)}
-					>
+						className="w-full justify-between font-normal text-primary-foreground">
 						{
 							date
 								? format(date, "P", { locale: ptBR })
-								: errors.date
-									? errors.date.message
-									: "Selecione a data"
+								: "Selecione a data"
 						}
 						<ChevronDownIcon />
 					</Button>
@@ -83,7 +58,11 @@ export const DatePicker = () => {
 						selected={date}
 						captionLayout="dropdown"
 						locale={ptBR}
-						onSelect={onSelect}
+						onSelect={(date) => {
+							isDate(date)
+								? setValue("date", date)
+								: setValue("date", new Date())
+						}}
 					/>
 					<div className="relative grow p-1">
 						<Input

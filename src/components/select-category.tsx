@@ -10,9 +10,16 @@ import { cn } from "@/lib/utils"
 import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
 import { categories } from "@/utils/categories"
 import { Category } from "@prisma/client"
+import { ComponentProps } from "react"
 import { useFormContext } from "react-hook-form"
 
-export const SelectCategory = () => {
+type SelectCategoryProps = ComponentProps<typeof Select> & {
+	className?: string
+}
+
+export const SelectCategory = ({ 
+	className, ...props 
+}: SelectCategoryProps) => {
 
 	const {
 		setValue,
@@ -22,15 +29,21 @@ export const SelectCategory = () => {
 
 	const category = watch("category")
 
+	function onValueChange(category: string) {
+		setValue("category", category as Category)
+	}
+
 	return (
-		<Select onValueChange={
-			(category) => setValue("category", category as Category)
-		}>
+		<Select
+			onValueChange={onValueChange}
+			{...props}
+		>
 			<SelectTrigger className={cn(
-				"w-full",
+				"w-full capitalize",
 				(errors.category && category === undefined) &&
 				"border border-destructive rounded-lg data-[placeholder]:text-destructive",
-				category !== undefined && "border border-sucess rounded-lg"
+				category !== undefined && "border border-sucess rounded-lg",
+				className,
 			)}>
 				<SelectValue placeholder={
 					errors.category

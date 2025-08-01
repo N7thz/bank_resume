@@ -9,8 +9,6 @@ export const NavBar = () => {
 
     const pathname = usePathname() as "/" | "/create-spent"
 
-    console.log(pathname)
-
     const routes = [
         {
             href: "/",
@@ -30,12 +28,15 @@ export const NavBar = () => {
                             key={href}
                             className={cn(
                                 "size-full flex items-center px-1 transition-colors duration-200",
-                                pathname === href && 
+                                pathname === href &&
                                 "size-full border-b-2 border-primary"
                             )}
                         >
                             <Link href={href}>
-                                <Icon className="size-6 text-indigo-400" />
+                                <Icon className={cn(
+                                    "size-6",
+                                    pathname === href && "text-indigo-400"
+                                )} />
                             </Link>
                         </li>
                     ))

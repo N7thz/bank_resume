@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form"
 import { cn } from "@/lib/utils"
 import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
 
-export const InputAmount = () => {
+export const InputAmount = ({ className }: { className?: string }) => {
 
 	const {
 		register,
@@ -24,7 +24,8 @@ export const InputAmount = () => {
 				"relative",
 				(errors.amount && amount == undefined)
 					? "border border-destructive rounded-lg"
-					: Number(amount) > 0 && "border border-sucess rounded-lg"
+					: Number(amount) > 0 && "border border-sucess rounded-lg",
+				className,
 			)}>
 				<Input
 					id={id}

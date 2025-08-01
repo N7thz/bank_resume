@@ -26,6 +26,7 @@ export const FormRegisterSpent = () => {
 	})
 
 	const {
+		watch,
 		register,
 		handleSubmit,
 	} = form

@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Spent } from "@prisma/client"
-import { BalanceMonthCardItem } from "./balance-month-card-item"
-import { ComponentProps } from "react"
 import { cn } from "@/lib/utils"
+import { Spent } from "@prisma/client"
+import { ComponentProps } from "react"
+import { BalanceMonthCardItem } from "./balance-month-card-item"
 
 type BalanceMonthCardProps = ComponentProps<typeof Card> & {
     spents: Spent[]

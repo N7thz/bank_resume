@@ -23,6 +23,14 @@ export async function getSpents({
     return response.data
 }
 
+export async function getSpentsById(id: string) {
+    return (await api.get<Spent>(`/spents/${id}`)).data
+}
+
 export async function deleteSpent(id: string) {
     return await api.delete(`/spents/${id}`)
+}
+
+export async function updateSpent() {
+
 }
