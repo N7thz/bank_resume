@@ -8,6 +8,7 @@ import { SelectPayMode } from "@/components/select-pay-mode"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { updateSpent } from "@/http/spents"
 import {
 	FormUpdateSpentProps, formUpdateSpentSchema
 } from "@/schemas/form-update-spend-schema"
@@ -16,11 +17,12 @@ import { Spent } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
 import { Check, X } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { FormProvider, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 export const FormUpdateSpent = ({
 	spent: {
+		id,
 		amount,
 		category,
 		date,
@@ -29,15 +31,6 @@ export const FormUpdateSpent = ({
 		time,
 	}
 }: { spent: Spent }) => {
-
-	console.log({
-		amount,
-		category,
-		date,
-		description,
-		payMode,
-		time,
-	})
 
 	const form = useForm<FormUpdateSpentProps>({
 		resolver: zodResolver(formUpdateSpentSchema),
@@ -51,13 +44,14 @@ export const FormUpdateSpent = ({
 		}
 	})
 
-	const { register, handleSubmit, } = form
+	const { register, handleSubmit } = form
 
 	const { push } = useRouter()
 
 	const { isPending, mutate } = useMutation({
 		mutationKey: ["update-spent"],
-		mutationFn: async (data: FormUpdateSpentProps) => { },
+		mutationFn: async (data: FormUpdateSpentProps) =>
+			updateSpent({ id, data }),
 		onSuccess: () => toast(
 			"Sucesso",
 			{
@@ -87,38 +81,39 @@ export const FormUpdateSpent = ({
 		mutate(data)
 	}
 
+	throw new Error("arrumar formulario")
+
 	return (
-		<FormProvider {...form}>
-			<form
-				onSubmit={handleSubmit(onSubmit)}
-				className="size-full space-y-4"
+		<Form
+			{...form}
+			onSubmit={handleSubmit(onSubmit)}
+			className="size-full space-y-4"
+		>
+			<DatePickerUpdate />
+			<SelectCategory
+				className="border-border"
+				defaultValue={category}
+			/>
+			<SelectPayMode
+				className="border-border"
+				defaultValue={payMode}
+			/>
+			<InputAmount className="border-border" />
+			<Label className="flex flex-col items-start">
+				Descrição
+				<Textarea
+					{...register("description")}
+					placeholder="Descrição do motivo da compra"
+					className="max-h-42 mt-2"
+				/>
+			</Label>
+			<Button
+				type="submit"
+				className="w-full"
+				disabled={isPending}
 			>
-				<DatePickerUpdate />
-				<SelectCategory
-					className="border border-border"
-					defaultValue={category}
-				/>
-				<SelectPayMode
-					className="border border-border"
-					defaultValue={payMode}
-				/>
-				<InputAmount className="border border-border" />
-				<Label className="flex flex-col items-start">
-					Descrição
-					<Textarea
-						{...register("description")}
-						placeholder="Descrição do motivo da compra"
-						className="max-h-42 mt-2"
-					/>
-				</Label>
-				<Button
-					type="submit"
-					className="w-full"
-					disabled={isPending}
-				>
-					Confirmar
-				</Button>
-			</form>
-		</FormProvider>
+				Confirmar
+			</Button>
+		</Form>
 	)
 }

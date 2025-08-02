@@ -1,11 +1,41 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
+import { formatAmount } from "@/functions/format-amount"
+import { BalanceWithSpent } from "@/http/balances"
 import { cn } from "@/lib/utils"
-import { ComponentProps } from "react"
+import { Check, Info, XCircle } from "lucide-react"
+import { ComponentProps, useEffect, useState } from "react"
+import { Separator } from "./ui/separator"
+
+type BalanceCardProps = ComponentProps<typeof Card> & {
+    balance: BalanceWithSpent
+}
 
 export const BalanceCard = ({
-    className, ...props
-}: ComponentProps<typeof Card>) => {
+    balance: {
+        balance,
+        spent: spents
+    }, className, ...props
+}: BalanceCardProps) => {
+
+    const [totalValue, setTotalValue] = useState(0)
+
+    const amount = formatAmount(balance)
+
+    useEffect(() => {
+        const total = spents.reduce((acc, spent) => acc + spent.amount, 0)
+        setTotalValue(total)
+    }, [spents])
+
+    function returnPercentage(balance: number, totalValue: number) {
+
+        const percentage = (totalValue / balance) * 100;
+
+        return percentage
+    }
+
+    const percentage = returnPercentage(balance, totalValue)
+
     return (
         <Card
             {...props}
@@ -16,14 +46,35 @@ export const BalanceCard = ({
                     Saldo
                 </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
                 <div className="space-y-2.5">
-                    <Progress value={30} />
+                    <Progress value={percentage} />
                     <span className="text-sm">
-                        R$300,00 de R$1800,00
+                        {formatAmount(totalValue)} de {amount}
                     </span>
                 </div>
+                <Separator />
+                <div className="text-base flex items-center gap-1">
+                    {
+                        percentage < 50
+                            ? <Check className="text-suces size-4" />
+                            : (percentage > 50 && percentage < 80)
+                                ? <Info className="text-amber-400 size-4" />
+                                : <XCircle className="text-destructive size-4" />
+                    }
+                    <span className={cn(
+                        "mr-2",
+                        percentage < 50
+                            ? "text-sucess"
+                            : (percentage > 50 && percentage < 80)
+                                ? "text-amber-400"
+                                : "text-destructive"
+                    )}>
+                        {percentage.toFixed(2)}%
+                    </span>
+                    do salário foi gasto.
+                </div>
             </CardContent>
-        </Card>
+        </Card >
     )
 }

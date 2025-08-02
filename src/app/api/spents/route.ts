@@ -37,6 +37,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
 
+    const searchParams = request.nextUrl.searchParams
+    
+    const balanceId = searchParams.get("balanceId")
+
     const {
         amount,
         category,
@@ -56,7 +60,10 @@ export async function POST(request: NextRequest) {
     }
 
     const spentCreated = await prisma.spent.create({
-        data: spent
+        data: {
+            ...spent,
+            balanceId
+        }
     })
 
     return NextResponse.json(

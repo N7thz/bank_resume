@@ -22,8 +22,7 @@ export const formUpdateSpentSchema = z.object({
         .string()
         .optional(),
     amount: z
-        .number()
-        .positive()
+        .unknown()
         .optional(),
     payMode: z
         .enum(

@@ -7,6 +7,7 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
 import { formatAmount } from "@/functions/format-amount"
 import { formatCategories } from "@/functions/format-category"
 import { formatPayMode } from "@/functions/format-pay-mode"
@@ -59,7 +60,10 @@ export const BalanceMonthCardItem = ({ spent }: { spent: Spent }) => {
             </CardContent>
             {
                 spent.description &&
-                <CardFooter>
+                <CardFooter className="border border-primary p-4 mx-6 rounded-lg">
+                    <span className="text-muted-foreground mr-2">
+                        Obs:
+                    </span>
                     {spent.description}
                 </CardFooter>
             }

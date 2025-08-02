@@ -1,7 +1,7 @@
 import { FormUpdateSpent } from "@/components/forms/form-update-spent"
 import {
-	FormUpdateSpentGetSpent
-} from "@/components/forms/form-update-spent-get-spent"
+	UpdateSpentGetSpent
+} from "@/components/update-spent-get-spent"
 import {
 	Card,
 	CardContent,
@@ -31,7 +31,7 @@ export default async function Home({
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<FormUpdateSpentGetSpent id={id} />
+					<UpdateSpentGetSpent id={id} />
 				</CardContent>
 			</Card>
 		</main>

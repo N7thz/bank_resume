@@ -8,36 +8,28 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Balance {
+  id        String   @id @default(uuid())
+  balance   Float
+  updatedAt DateTime @updatedAt @map("updated_at")
+  period    String   @unique
+  spent     Spent[]
+
+  @@map("balances")
+}
+
 model Spent {
   id          String   @id @default(uuid())
-  date        DateTime 
+  date        DateTime
   time        String
   description String?
   amount      Float
   category    Category
   payMode     PayMode  @map("pay_mode")
+  Balance     Balance? @relation(fields: [balanceId], references: [id])
+  balanceId   String?
 
   @@map("spents")
-}
-
-model Balance {
-  id          String   @id @default(uuid())
-  balance     Float
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  bank        Bank
-
-  @@map("balances")
-}
-
-enum Bank {
-  ITAU
-  BRADESCO
-  CAIXA
-  SANTANDER
-  BANCO_DO_BRASIL
-  INTER
-  NUBANK
-  OTHER
 }
 
 enum Category {
@@ -53,3 +45,14 @@ enum PayMode {
   CARD
   OTHER
 }
+
+// enum Bank {
+//   ITAU
+//   BRADESCO
+//   CAIXA
+//   SANTANDER
+//   BANCO_DO_BRASIL
+//   INTER
+//   NUBANK
+//   OTHER
+// }

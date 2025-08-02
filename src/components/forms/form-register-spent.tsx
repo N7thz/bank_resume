@@ -8,7 +8,8 @@ import { SelectPayMode } from "@/components/select-pay-mode"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { createSpent } from "@/http/use-http"
+import { useFindBalance } from "@/hooks/use-find-balance"
+import { createSpent } from "@/http/spents"
 import {
 	FormRegisterSpentProps, formRegisterSpentSchema
 } from "@/schemas/form-register-spend-schema"
@@ -21,21 +22,22 @@ import { toast } from "sonner"
 
 export const FormRegisterSpent = () => {
 
+	const { balance } = useFindBalance()
+
 	const form = useForm<FormRegisterSpentProps>({
 		resolver: zodResolver(formRegisterSpentSchema)
 	})
 
-	const {
-		watch,
-		register,
-		handleSubmit,
-	} = form
+	const { register, handleSubmit } = form
 
 	const { push } = useRouter()
 
+	const balanceId = balance!.id
+
 	const { isPending, mutate } = useMutation({
 		mutationKey: ["create-spent"],
-		mutationFn: async (data: FormRegisterSpentProps) => createSpent(data),
+		mutationFn: async (data: FormRegisterSpentProps) =>
+			createSpent(data, balanceId),
 		onSuccess: () => toast(
 			"Sucesso",
 			{

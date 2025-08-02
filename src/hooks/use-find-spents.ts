@@ -1,4 +1,4 @@
-import { getSpents } from "@/http/use-http"
+import { getSpents } from "@/http/spents"
 import { useQuery } from "@tanstack/react-query"
 
 export function useFindSpents() {

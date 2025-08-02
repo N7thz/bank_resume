@@ -1,10 +1,10 @@
 "use client"
 
-import { getSpentsById } from "@/http/use-http"
+import { getSpentsById } from "@/http/spents"
 import { useQuery } from "@tanstack/react-query"
-import { FormUpdateSpent } from "./form-update-spent"
+import { FormUpdateSpent } from "./forms/form-update-spent"
 
-export const FormUpdateSpentGetSpent = ({ id }: { id: string }) => {
+export const UpdateSpentGetSpent = ({ id }: { id: string }) => {
 
 	const { data: spent, isLoading } = useQuery({
 		queryKey: ["update-spent", id],

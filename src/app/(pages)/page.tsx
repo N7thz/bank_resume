@@ -1,21 +1,33 @@
 "use client"
 
 import { BalanceCard } from "@/components/balance-card"
+import { BalaceMonthNotFind } from "@/components/balance-month-card/balace-month-not-find"
 import { BalanceMonthCard } from "@/components/balance-month-card/balance-month-card"
 import {
-    Card, CardContent, CardDescription, CardHeader,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
     CardTitle
 } from "@/components/ui/card"
-import { useFindSpents } from "@/hooks/use-find-spents"
+import { useFindBalance } from "@/hooks/use-find-balance"
 import { cn } from "@/lib/utils"
 
 export default function Home() {
 
-    const { spents, isLoading } = useFindSpents()
+    const { balance, isLoading } = useFindBalance()
 
-    if (isLoading || !spents) {
+    if (isLoading || !balance) {
         return <div>Loading...</div>
     }
+
+    const { spent: spents } = balance
+
+    // return <div>
+    //     {
+    //         JSON.stringify(balance.spent)
+    //     }
+    // </div>
 
     return (
         <Card className="size-full rounded-md">
@@ -28,11 +40,19 @@ export default function Home() {
                 </CardDescription>
             </CardHeader>
             <CardContent className={cn("flex gap-4", "max-md:flex-col")}>
-                <BalanceCard className="max-md:w-full" />
-                <BalanceMonthCard
-                    spents={spents}
+                <BalanceCard
+                    balance={balance}
                     className="max-md:w-full"
                 />
+                {
+                    spents && spents.length > 0
+                        ? <BalanceMonthCard
+                            spents={spents}
+                            className="max-md:w-full"
+                        />
+                        : <BalaceMonthNotFind />
+                }
+
             </CardContent>
         </Card>
     )

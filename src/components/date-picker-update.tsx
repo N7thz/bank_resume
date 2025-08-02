@@ -28,7 +28,7 @@ export const DatePickerUpdate = () => {
 	const time = watch("time")
 
 	useEffect(() => {
-		if (date && time) setOpen(false)
+		if (date && time) setTimeout(() => setOpen(false), 1000)
 	}, [date, time])
 
 	return (
