@@ -13,3 +13,7 @@ export async function getBalance({
 
     return (await api.get<BalanceWithSpent>(url)).data
 }
+
+export async function updateBalance(id: string, balance: number) {
+    return api.put(`/balance/${id}`, { balance })
+}

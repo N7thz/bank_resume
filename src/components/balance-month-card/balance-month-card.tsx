@@ -1,5 +1,5 @@
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
 import { Spent } from "@prisma/client"
 import { ComponentProps } from "react"
@@ -38,7 +38,11 @@ export const BalanceMonthCard = ({
                     </Button>
                 </CardAction>
             </CardHeader>
-            <ScrollArea className={cn("max-h-[500px]", "max-md:max-h-[300px]")}>
+            <ScrollArea className={cn(
+                "max-h-[500px]",
+                "max-md:max-h-full"
+            )}>
+                <ScrollBar />
                 <CardContent className="size-full space-y-2">
                     {
                         spentsByDate.map(spent => (

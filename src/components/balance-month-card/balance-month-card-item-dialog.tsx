@@ -30,7 +30,7 @@ export const BalanceMonthCardItemDialog = ({ id }:
         setOpen(false)
     }
 
-    const { isPending, mutate } = useMutation({
+    const { isPending, isSuccess, mutate } = useMutation({
         mutationKey: ["delete-spent", id],
         mutationFn: () => deleteSpent(id),
         onSuccess: () => toast(
@@ -84,20 +84,20 @@ export const BalanceMonthCardItemDialog = ({ id }:
                     <Button
                         variant={"secondary"}
                         onClick={() => mutate()}
-                        disabled={isPending}
+                        disabled={isPending || isSuccess}
                     >
                         Confirmar
                     </Button>
                     <DialogClose asChild>
                         <Button
                             variant={"destructive"}
-                            disabled={isPending}
+                            disabled={isPending || isSuccess}
                         >
                             Cancelar
                         </Button>
                     </DialogClose>
                 </DialogFooter>
-            </DialogContent>
-        </Dialog>
+            </DialogContent >
+        </Dialog >
     )
 }

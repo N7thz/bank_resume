@@ -1,8 +1,12 @@
 "use client"
 
 import { BalanceCard } from "@/components/balance-card"
-import { BalaceMonthNotFound } from "@/components/balance-month-card/balace-month-not-find"
-import { BalanceMonthCard } from "@/components/balance-month-card/balance-month-card"
+import {
+    BalaceMonthNotFound
+} from "@/components/balance-month-card/balace-month-not-find"
+import {
+    BalanceMonthCard
+} from "@/components/balance-month-card/balance-month-card"
 import {
     Card,
     CardContent,
@@ -23,14 +27,8 @@ export default function Home() {
 
     const { spent: spents } = balance
 
-    // return <div>
-    //     {
-    //         JSON.stringify(balance.spent)
-    //     }
-    // </div>
-
     return (
-        <Card className="size-full rounded-md">
+        <Card className="w-full rounded-md">
             <CardHeader>
                 <CardTitle className="text-2xl">
                     Bank Resume

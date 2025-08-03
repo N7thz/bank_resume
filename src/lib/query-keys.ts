@@ -5,4 +5,5 @@ export const queryKeys = {
     createSpent: () => ["create-spent"],
     updateSpent: () => ["update-spent"],
     deleteSpent: () => ["delete-spent"],
+    updateBalanceValue: () => ["update-balance-value"]
 }

@@ -33,7 +33,7 @@ export const FormRegisterSpent = () => {
 
 	const { push } = useRouter()
 
-	const balanceId = balance!.id
+	const balanceId = balance ? balance.id : ""
 
 	const { isPending, mutate } = useMutation({
 		mutationKey: queryKeys.createSpent(),
@@ -89,10 +89,10 @@ export const FormRegisterSpent = () => {
 			<Button
 				type="submit"
 				className="w-full"
-				disabled={isPending}
+				disabled={isPending || isSuccess}
 			>
 				Confirmar
 			</Button>
-		</Form>
+		</Form >
 	)
 }

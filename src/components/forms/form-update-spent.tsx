@@ -14,9 +14,6 @@ import { queryKeys } from "@/lib/query-keys"
 import {
 	FormUpdateSpentProps, formUpdateSpentSchema
 } from "@/schemas/form-update-spend-schema"
-import {
-	FormRegisterSpentProps
-} from "@/schemas/form-register-spend-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Spent } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
@@ -124,10 +121,10 @@ export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 			<Button
 				type="submit"
 				className="w-full"
-				disabled={isPending}
+				disabled={isPending || isSuccess}
 			>
 				Confirmar
 			</Button>
-		</Form>
+		</Form >
 	)
 }

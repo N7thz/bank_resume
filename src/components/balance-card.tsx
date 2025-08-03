@@ -1,11 +1,12 @@
-import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
 import { formatAmount } from "@/functions/format-amount"
 import { BalanceWithSpent } from "@/http/balances"
 import { cn } from "@/lib/utils"
-import { Check, Info, XCircle } from "lucide-react"
+import { Check, CheckCircle, Info, XCircle } from "lucide-react"
 import { ComponentProps, useEffect, useState } from "react"
-import { Separator } from "./ui/separator"
+import { DialogEditBalance } from "./dialog-edit-balance"
 
 type BalanceCardProps = ComponentProps<typeof Card> & {
     balance: BalanceWithSpent
@@ -13,6 +14,7 @@ type BalanceCardProps = ComponentProps<typeof Card> & {
 
 export const BalanceCard = ({
     balance: {
+        id,
         balance,
         spent: spents
     }, className, ...props
@@ -28,25 +30,35 @@ export const BalanceCard = ({
     }, [spents])
 
     function returnPercentage(balance: number, totalValue: number) {
-
-        const percentage = (totalValue / balance) * 100;
-
-        return percentage
+        return (totalValue / balance) * 100
     }
 
     const percentage = returnPercentage(balance, totalValue)
 
+    const remainingValue = () => {
+
+        const value = balance - totalValue
+
+        if (value > 0) {
+            return `${formatAmount(value)} restante.`
+        } else if (value === 0) {
+            return "Sem dinheiro restante."
+        }
+
+        return `Você está devendo ${formatAmount(Math.abs(value))}.`
+    }
+
     return (
         <Card
             {...props}
-            className={cn("w-1/3 h-full border-border flex-1", className)}
+            className={cn("w-1/3 border-border flex-1", className)}
         >
             <CardHeader>
                 <CardTitle>
                     Saldo
                 </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 h-full">
                 <div className="space-y-2.5">
                     <Progress value={percentage} />
                     <span className="text-sm">
@@ -57,7 +69,7 @@ export const BalanceCard = ({
                 <div className="text-base flex items-center gap-1">
                     {
                         percentage < 50
-                            ? <Check className="text-suces size-4" />
+                            ? <CheckCircle className="text-sucess size-4" />
                             : (percentage > 50 && percentage < 80)
                                 ? <Info className="text-amber-400 size-4" />
                                 : <XCircle className="text-destructive size-4" />
@@ -72,9 +84,25 @@ export const BalanceCard = ({
                     )}>
                         {percentage.toFixed(2)}%
                     </span>
-                    do salário foi gasto.
+                    do valor foi gasto.
+                </div>
+                <Separator />
+                <div className={cn(
+                    percentage < 50
+                        ? "text-sucess"
+                        : (percentage > 50 && percentage < 80)
+                            ? "text-amber-400"
+                            : "text-destructive"
+                )}>
+                    {remainingValue()}
                 </div>
             </CardContent>
-        </Card >
+            <CardFooter>
+                <DialogEditBalance
+                    id={id}
+                    balance={balance}
+                />
+            </CardFooter>
+        </Card>
     )
 }

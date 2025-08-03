@@ -1,9 +1,7 @@
-import { Background } from "@/components/background"
+import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import { cn } from "@/lib/utils"
-import type { Metadata } from "next"
 import { Fira_Code } from "next/font/google"
 import "./globals.css"
 
@@ -19,27 +17,22 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-
 	return (
 		<html lang="pt-BR" suppressHydrationWarning>
-			<body className={cn(
-				fira.className,
-				"antialiased h-dvh overflow-hidden flex flex-col"
-			)}>
+			<body className={fira.className + "antialiased"}>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"
 				>
-					<Background />
 					<Toaster />
-					<div className="flex-1 flex flex-col">
+					<div className="flex flex-col h-dvh">
 						<Header />
-						<div className="p-8 flex-1 flex">
+						<div className="flex items-center justify-center p-8">
 							{children}
 						</div>
 					</div>
 				</ThemeProvider>
 			</body>
-		</html>
+		</html >
 	)
 }
