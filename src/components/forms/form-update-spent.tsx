@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { updateSpent } from "@/http/spents"
+import { queryKeys } from "@/lib/query-keys"
 import {
 	FormUpdateSpentProps, formUpdateSpentSchema
 } from "@/schemas/form-update-spend-schema"
@@ -49,7 +50,7 @@ export const FormUpdateSpent = ({
 	const { push } = useRouter()
 
 	const { isPending, mutate } = useMutation({
-		mutationKey: ["update-spent"],
+		mutationKey: queryKeys.updateSpent(),
 		mutationFn: async (data: FormUpdateSpentProps) =>
 			updateSpent({ id, data }),
 		onSuccess: () => toast(

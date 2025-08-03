@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useFindBalance } from "@/hooks/use-find-balance"
 import { createSpent } from "@/http/spents"
+import { queryKeys } from "@/lib/query-keys"
 import {
 	FormRegisterSpentProps, formRegisterSpentSchema
 } from "@/schemas/form-register-spend-schema"
@@ -35,7 +36,7 @@ export const FormRegisterSpent = () => {
 	const balanceId = balance!.id
 
 	const { isPending, mutate } = useMutation({
-		mutationKey: ["create-spent"],
+		mutationKey: queryKeys.createSpent(),
 		mutationFn: async (data: FormRegisterSpentProps) =>
 			createSpent(data, balanceId),
 		onSuccess: () => toast(

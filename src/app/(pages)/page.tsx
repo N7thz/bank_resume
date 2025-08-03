@@ -1,7 +1,7 @@
 "use client"
 
 import { BalanceCard } from "@/components/balance-card"
-import { BalaceMonthNotFind } from "@/components/balance-month-card/balace-month-not-find"
+import { BalaceMonthNotFound } from "@/components/balance-month-card/balace-month-not-find"
 import { BalanceMonthCard } from "@/components/balance-month-card/balance-month-card"
 import {
     Card,
@@ -50,7 +50,7 @@ export default function Home() {
                             spents={spents}
                             className="max-md:w-full"
                         />
-                        : <BalaceMonthNotFind />
+                        : <BalaceMonthNotFound />
                 }
 
             </CardContent>

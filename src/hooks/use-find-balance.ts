@@ -1,4 +1,5 @@
 import { getBalance } from "@/http/balances"
+import { queryKeys } from "@/lib/query-keys"
 import { useQuery } from "@tanstack/react-query"
 
 export function useFindBalance() {
@@ -7,7 +8,7 @@ export function useFindBalance() {
     const month = new Date().getMonth()
 
     const { data: balance, ...data } = useQuery({
-        queryKey: ["find-balance"],
+        queryKey: queryKeys.findBalance(),
         queryFn: async () => getBalance({ year, month }),
     })
 

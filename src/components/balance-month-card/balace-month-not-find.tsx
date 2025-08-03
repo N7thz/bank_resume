@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card"
 import Link from "next/link"
 
-export const BalaceMonthNotFind = () => {
+export const BalaceMonthNotFound = () => {
     return (
         <Card className="w-2/3 border-border">
             <CardHeader className="text-center text-muted-foreground rounded-lg">
