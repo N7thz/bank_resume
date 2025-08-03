@@ -12,6 +12,8 @@ export const UpdateSpentGetSpent = ({ id }: { id: string }) => {
 		queryFn: async () => getSpentsById(id)
 	})
 
+	console.log(spent)
+
 	if (!spent || isLoading) {
 		return <div>...is loading</div>
 	}

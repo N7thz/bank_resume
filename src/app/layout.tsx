@@ -27,7 +27,7 @@ export default function RootLayout({
 					<Toaster />
 					<div className="flex flex-col h-dvh">
 						<Header />
-						<div className="flex items-center justify-center p-8">
+						<div className="flex items-center justify-center p-8 size-full">
 							{children}
 						</div>
 					</div>

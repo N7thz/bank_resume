@@ -19,15 +19,16 @@ model Balance {
 }
 
 model Spent {
-  id          String   @id @default(uuid())
-  date        DateTime
-  time        String
-  description String?
-  amount      Float
-  category    Category
-  payMode     PayMode  @map("pay_mode")
-  Balance     Balance? @relation(fields: [balanceId], references: [id])
-  balanceId   String?
+  id               String   @id @default(uuid())
+  date             DateTime
+  time             String
+  description      String?
+  amount           Float
+  recurringExpense Boolean  @default(false) @map("recurring_expense")
+  category         Category
+  payMode          PayMode  @map("pay_mode")
+  Balance          Balance? @relation(fields: [balanceId], references: [id])
+  balanceId        String?
 
   @@map("spents")
 }

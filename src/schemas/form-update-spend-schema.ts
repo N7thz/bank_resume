@@ -16,6 +16,8 @@ export const formUpdateSpentSchema = z.object({
             { error: "Selecione uma categoria" }
         )
         .optional(),
+    recurringExpense: z
+        .boolean(),
     description: z
         .string()
         .optional(),

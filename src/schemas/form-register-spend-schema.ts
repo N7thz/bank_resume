@@ -17,6 +17,8 @@ export const formRegisterSpentSchema = z.object({
                 error: "Selecione uma categoria"
             }
         ),
+    recurringExpense: z
+        .boolean(),
     description: z
         .string()
         .optional(),

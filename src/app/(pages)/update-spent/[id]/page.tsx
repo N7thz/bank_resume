@@ -1,7 +1,3 @@
-import { FormUpdateSpent } from "@/components/forms/form-update-spent"
-import {
-	UpdateSpentGetSpent
-} from "@/components/update-spent-get-spent"
 import {
 	Card,
 	CardContent,
@@ -9,6 +5,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card"
+import {
+	UpdateSpentGetSpent
+} from "@/components/update-spent-get-spent"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {

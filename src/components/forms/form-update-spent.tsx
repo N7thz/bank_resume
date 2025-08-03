@@ -5,6 +5,7 @@ import { Form } from "@/components/forms/form-root"
 import { InputAmount } from "@/components/input-amount"
 import { SelectCategory } from "@/components/select-category"
 import { SelectPayMode } from "@/components/select-pay-mode"
+import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -17,10 +18,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Spent } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
-import { Check, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { toast } from "@/components/toast"
+import { Checkbox } from "../ui/checkbox"
 
 export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 
@@ -32,6 +32,7 @@ export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 		description,
 		payMode,
 		time,
+		recurringExpense
 	} = spent
 
 	const form = useForm<FormUpdateSpentProps>({
@@ -42,11 +43,12 @@ export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 			date: new Date(date),
 			description: description ?? undefined,
 			payMode,
-			time
+			time,
+			recurringExpense
 		}
 	})
 
-	const { register, handleSubmit } = form
+	const { register, handleSubmit, setValue, watch } = form
 
 	const { push } = useRouter()
 
@@ -64,8 +66,10 @@ export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 		})
 	})
 
-	function onSubmit({ amount, description, ...data }: FormUpdateSpentProps) {
+	const checked = watch("recurringExpense")
 
+	function onSubmit({ amount, description, ...data }: FormUpdateSpentProps) {
+		
 		const newSpent = {
 			...data,
 			description: (description !== "") ? description : null,
@@ -96,6 +100,21 @@ export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 				defaultValue={payMode}
 			/>
 			<InputAmount className="border-border" />
+			<div className="flex items-center gap-2 w-full">
+				<Checkbox
+					id={"checkbox-register-spent"}
+					className="size-4.5"
+					onCheckedChange={(checked) => setValue("recurringExpense", checked === true)}
+					checked={checked}
+					defaultChecked={false}
+				/>
+				<Label
+					htmlFor={"checkbox-register-spent"}
+					className="text-base"
+				>
+					Gasto recorrente
+				</Label>
+			</div>
 			<Label className="flex flex-col items-start">
 				Descrição
 				<Textarea
