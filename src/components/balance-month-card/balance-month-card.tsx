@@ -14,6 +14,10 @@ type BalanceMonthCardProps = ComponentProps<typeof Card> & {
 export const BalanceMonthCard = ({
     spents, className, ...props
 }: BalanceMonthCardProps) => {
+
+    const spentsByDate = spents
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
     return (
         <Card
             {...props}
@@ -37,7 +41,7 @@ export const BalanceMonthCard = ({
             <ScrollArea className={cn("max-h-[500px]", "max-md:max-h-[300px]")}>
                 <CardContent className="size-full space-y-2">
                     {
-                        spents.map(spent => (
+                        spentsByDate.map(spent => (
                             <BalanceMonthCardItem
                                 key={spent.id}
                                 spent={spent}

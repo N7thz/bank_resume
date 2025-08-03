@@ -1,6 +1,5 @@
 import api from "@/http"
 import { FormRegisterSpentProps } from "@/schemas/form-register-spend-schema"
-import { FormUpdateSpentProps } from "@/schemas/form-update-spend-schema"
 import { Spent } from "@prisma/client"
 
 type GetSpentsProps = {
@@ -34,7 +33,7 @@ export async function deleteSpent(id: string) {
 
 export async function updateSpent({ id, data }: {
     id: string
-    data: FormUpdateSpentProps,
+    data: Spent,
 }) {
     return await api.put(`/spents/${id}`, data)
 }

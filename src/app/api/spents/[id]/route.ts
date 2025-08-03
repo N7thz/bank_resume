@@ -1,3 +1,4 @@
+import { updateSpent } from "@/api-routes/spents/update-spent"
 import { prisma } from "@/lib/prisma"
 import { Spent } from "@prisma/client"
 import { StatusCodes, getReasonPhrase } from "http-status-codes"
@@ -32,6 +33,13 @@ export async function GET(
     }
 
     return NextResponse.json<Spent>(spent)
+}
+
+export async function PUT(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    return updateSpent(request, params)
 }
 
 export async function DELETE(

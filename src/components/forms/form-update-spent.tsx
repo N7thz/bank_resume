@@ -8,11 +8,15 @@ import { SelectPayMode } from "@/components/select-pay-mode"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { mergeData } from "@/functions/merge-data"
 import { updateSpent } from "@/http/spents"
 import { queryKeys } from "@/lib/query-keys"
 import {
 	FormUpdateSpentProps, formUpdateSpentSchema
 } from "@/schemas/form-update-spend-schema"
+import {
+	FormRegisterSpentProps
+} from "@/schemas/form-register-spend-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Spent } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
@@ -21,8 +25,9 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-export const FormUpdateSpent = ({
-	spent: {
+export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
+
+	const {
 		id,
 		amount,
 		category,
@@ -30,15 +35,14 @@ export const FormUpdateSpent = ({
 		description,
 		payMode,
 		time,
-	}
-}: { spent: Spent }) => {
+	} = spent
 
 	const form = useForm<FormUpdateSpentProps>({
 		resolver: zodResolver(formUpdateSpentSchema),
 		defaultValues: {
 			amount,
 			category,
-			date,
+			date: new Date(date),
 			description: description ?? undefined,
 			payMode,
 			time
@@ -51,8 +55,7 @@ export const FormUpdateSpent = ({
 
 	const { isPending, mutate } = useMutation({
 		mutationKey: queryKeys.updateSpent(),
-		mutationFn: async (data: FormUpdateSpentProps) =>
-			updateSpent({ id, data }),
+		mutationFn: async (data: Spent) => updateSpent({ id, data }),
 		onSuccess: () => toast(
 			"Sucesso",
 			{
@@ -61,7 +64,7 @@ export const FormUpdateSpent = ({
 					border: "1px solid oklch(51.1% 0.262 276.966)",
 				},
 				onAutoClose: () => push("/"),
-				description: "Gasto registrado com sucesso!",
+				description: "Gasto atualizado com sucesso!",
 				duration: 2000
 			}
 		),
@@ -78,11 +81,21 @@ export const FormUpdateSpent = ({
 		)
 	})
 
-	function onSubmit(data: FormUpdateSpentProps) {
-		mutate(data)
-	}
+	function onSubmit({ amount, description, ...data }: FormUpdateSpentProps) {
 
-	throw new Error("arrumar formulario")
+		const newSpent = {
+			...data,
+			description: (description !== "") ? description : null,
+			amount: Number(amount)
+		}
+
+		const spentMerged = mergeData<Spent>({
+			newData: newSpent,
+			oldData: spent
+		})
+
+		mutate(spentMerged)
+	}
 
 	return (
 		<Form

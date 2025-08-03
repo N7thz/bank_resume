@@ -4,9 +4,7 @@ export type FormUpdateSpentProps = z.infer<typeof formUpdateSpentSchema>
 
 export const formUpdateSpentSchema = z.object({
     date: z
-        .date({
-            error: issue => issue.input === undefined ? "A data é obrigatória" : "Invalid date"
-        })
+        .date()
         .optional(),
     time: z
         .string()
@@ -22,7 +20,8 @@ export const formUpdateSpentSchema = z.object({
         .string()
         .optional(),
     amount: z
-        .unknown()
+        .string()
+        .or(z.number())
         .optional(),
     payMode: z
         .enum(
