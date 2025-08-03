@@ -20,7 +20,7 @@ import { useMutation } from "@tanstack/react-query"
 import { Check, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { toast } from "@/components/toast"
 
 export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 
@@ -50,32 +50,18 @@ export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 
 	const { push } = useRouter()
 
-	const { isPending, mutate } = useMutation({
+	const { isPending, isSuccess, mutate } = useMutation({
 		mutationKey: queryKeys.updateSpent(),
 		mutationFn: async (data: Spent) => updateSpent({ id, data }),
-		onSuccess: () => toast(
-			"Sucesso",
-			{
-				icon: <Check className="size-4 text-primary" />,
-				style: {
-					border: "1px solid oklch(51.1% 0.262 276.966)",
-				},
-				onAutoClose: () => push("/"),
-				description: "Gasto atualizado com sucesso!",
-				duration: 2000
-			}
-		),
-		onError: () => toast(
-			"Error",
-			{
-				icon: <X className="size-4 text-primary" />,
-				style: {
-					border: "1px solid oklch(51.1% 0.262 276.966)",
-				},
-				description: "Erro ao registrar gasto!",
-				duration: 2000
-			}
-		)
+		onSuccess: () => toast({
+			title: "Sucesso",
+			description: "Gasto atualizado com sucesso!",
+			onAutoClose: () => push("/"),
+		}),
+		onError: () => toast({
+			title: "Error",
+			description: "Erro ao registrar gasto!",
+		})
 	})
 
 	function onSubmit({ amount, description, ...data }: FormUpdateSpentProps) {

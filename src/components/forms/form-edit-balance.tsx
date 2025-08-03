@@ -1,3 +1,5 @@
+import { queryClient } from "@/components/theme-provider"
+import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import {
     DialogDescription,
@@ -13,14 +15,11 @@ import {
 } from "@/schemas/form-edit-balance-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
-import { Check, X } from "lucide-react"
+import { Dispatch, SetStateAction } from "react"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { EditBalanceType } from "../dialog-edit-balance"
 import { EditBalanceInput } from "../edit-value-input"
 import { Form } from "./form-root"
-import { EditBalanceType } from "../dialog-edit-balance"
-import { Dispatch, SetStateAction } from "react"
-import { queryClient } from "@/components/theme-provider"
 
 type FormEditBalance = EditBalanceType & {
     setOpen: Dispatch<SetStateAction<boolean>>
@@ -39,34 +38,20 @@ export const FormEditBalance = ({
     const { isPending, isSuccess, mutate } = useMutation({
         mutationKey: queryKeys.updateBalanceValue(),
         mutationFn: (balance: number) => updateBalance(id, balance),
-        onSuccess: () => toast(
-            "Sucesso",
-            {
-                icon: <Check className="size-4 text-primary" />,
-                style: {
-                    border: "1px solid oklch(51.1% 0.262 276.966)",
-                },
-                onAutoClose: async () => {
-                    await queryClient.invalidateQueries({
-                        queryKey: queryKeys.findBalance()
-                    })
-                    setOpen(false)
-                },
-                description: "Gasto registrado com sucesso!",
-                duration: 2000
+        onSuccess: () => toast({
+            title: "Sucesso",
+            description: "Gasto registrado com sucesso!",
+            onAutoClose: async () => {
+                await queryClient.invalidateQueries({
+                    queryKey: queryKeys.findBalance()
+                })
+                setOpen(false)
             }
-        ),
-        onError: () => toast(
-            "Error",
-            {
-                icon: <X className="size-4 text-primary" />,
-                style: {
-                    border: "1px solid oklch(51.1% 0.262 276.966)",
-                },
-                description: "Erro ao registrar gasto!",
-                duration: 2000
-            }
-        )
+        }),
+        onError: () => toast({
+            title: "Error",
+            description: "Erro ao registrar gasto!"
+        })
     })
 
     function onSubmit({ balance }: FormEditBalanceProps) {

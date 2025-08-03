@@ -19,7 +19,7 @@ import { useMutation } from "@tanstack/react-query"
 import { Check, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { toast } from "@/components/toast"
 
 export const FormRegisterSpent = () => {
 
@@ -35,33 +35,19 @@ export const FormRegisterSpent = () => {
 
 	const balanceId = balance ? balance.id : ""
 
-	const { isPending, mutate } = useMutation({
+	const { isPending, isSuccess, mutate } = useMutation({
 		mutationKey: queryKeys.createSpent(),
 		mutationFn: async (data: FormRegisterSpentProps) =>
 			createSpent(data, balanceId),
-		onSuccess: () => toast(
-			"Sucesso",
-			{
-				icon: <Check className="size-4 text-primary" />,
-				style: {
-					border: "1px solid oklch(51.1% 0.262 276.966)",
-				},
-				onAutoClose: () => push("/"),
-				description: "Gasto registrado com sucesso!",
-				duration: 2000
-			}
-		),
-		onError: () => toast(
-			"Error",
-			{
-				icon: <X className="size-4 text-primary" />,
-				style: {
-					border: "1px solid oklch(51.1% 0.262 276.966)",
-				},
-				description: "Erro ao registrar gasto!",
-				duration: 2000
-			}
-		)
+		onSuccess: () => toast({
+			title: "Sucesso",
+			description: "Gasto registrado com sucesso!",
+			onAutoClose: () => push("/"),
+		}),
+		onError: () => toast({
+			title: "Error",
+			description: "Erro ao registrar gasto!",
+		})
 	})
 
 	function onSubmit(data: FormRegisterSpentProps) {

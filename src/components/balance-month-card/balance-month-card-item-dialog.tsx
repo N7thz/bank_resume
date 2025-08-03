@@ -1,4 +1,5 @@
 import { queryClient } from "@/components/theme-provider"
+import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -13,9 +14,7 @@ import {
 import { deleteSpent } from "@/http/spents"
 import { queryKeys } from "@/lib/query-keys"
 import { useMutation } from "@tanstack/react-query"
-import { Check, X } from "lucide-react"
 import { useState } from "react"
-import { toast } from "sonner"
 
 export const BalanceMonthCardItemDialog = ({ id }:
     { id: string }
@@ -33,29 +32,15 @@ export const BalanceMonthCardItemDialog = ({ id }:
     const { isPending, isSuccess, mutate } = useMutation({
         mutationKey: ["delete-spent", id],
         mutationFn: () => deleteSpent(id),
-        onSuccess: () => toast(
-            "Sucesso",
-            {
-                icon: <Check className="size-4 text-primary" />,
-                style: {
-                    border: "1px solid oklch(51.1% 0.262 276.966)",
-                },
-                onAutoClose: onClose,
-                description: "Gasto excluido com sucesso!",
-                duration: 2000
-            }
-        ),
-        onError: () => toast(
-            "Error",
-            {
-                icon: <X className="size-4 text-primary" />,
-                style: {
-                    border: "1px solid oklch(51.1% 0.262 276.966)",
-                },
-                description: "Erro ao excluir gasto!",
-                duration: 2000
-            }
-        )
+        onSuccess: () => toast({
+            title: "Sucesso",
+            description: "Gasto excluido com sucesso!",
+            onAutoClose: onClose,
+        }),
+        onError: () => toast({
+            title: "Error",
+            description: "Erro ao excluir gasto!"
+        })
     })
 
     return (
