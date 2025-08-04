@@ -1,5 +1,6 @@
 "use client"
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
     CommandDialog,
     CommandEmpty,
@@ -8,8 +9,7 @@ import {
     CommandItem,
     CommandList
 } from "@/components/ui/command"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { BanknoteArrowDown, ChartNoAxesCombined, Hash } from "lucide-react"
+import { BanknoteArrowDown, ChartNoAxesCombined } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 

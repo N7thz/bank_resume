@@ -69,10 +69,10 @@ export const FormUpdateSpent = ({ spent }: { spent: Spent }) => {
 	const checked = watch("recurringExpense")
 
 	function onSubmit({ amount, description, ...data }: FormUpdateSpentProps) {
-		
+
 		const newSpent = {
 			...data,
-			description: (description !== "") ? description : null,
+			description: description !== "" ? description : null,
 			amount: Number(amount)
 		}
 

@@ -1,9 +1,9 @@
 import { PayMode } from "@prisma/client"
 import {
-    Hamburger, CarFront, Clapperboard, Receipt, Plus, LucideIcon,
-    Landmark,
+    BanknoteArrowUp,
     CreditCard,
-    BanknoteArrowUp
+    Landmark,
+    LucideIcon
 } from "lucide-react"
 
 type PayModeProps = {

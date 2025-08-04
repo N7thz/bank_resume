@@ -7,7 +7,6 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
 import { formatAmount } from "@/functions/format-amount"
 import { formatCategories } from "@/functions/format-category"
 import { formatPayMode } from "@/functions/format-pay-mode"

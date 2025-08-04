@@ -1,5 +1,4 @@
 import { FormRegisterSpent } from "@/components/forms/form-register-spent"
-import { Header } from "@/components/header"
 import {
 	Card,
 	CardContent,

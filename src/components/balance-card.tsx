@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import { formatAmount } from "@/functions/format-amount"
 import { BalanceWithSpent } from "@/http/balances"
 import { cn } from "@/lib/utils"
-import { Check, CheckCircle, Info, XCircle } from "lucide-react"
+import { CheckCircle, Info, XCircle } from "lucide-react"
 import { ComponentProps, useEffect, useState } from "react"
 import { DialogEditBalance } from "./dialog-edit-balance"
 

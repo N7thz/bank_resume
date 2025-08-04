@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { Spent } from "@prisma/client"
 import { getReasonPhrase, StatusCodes } from "http-status-codes"
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 
 export async function findSpentById(
     params: Promise<{ id: string }>
