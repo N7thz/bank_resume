@@ -46,9 +46,9 @@ export const BalanceMonthCardItem = ({ spent }: { spent: Spent }) => {
                 "max-md:grid-cols-1"
             )}>
                 {
-                    infos.map(({ Icon, text, value }) => (
+                    infos.map(({ Icon, text }, index) => (
                         <div
-                            key={value}
+                            key={index}
                             className="flex items-center justify-center gap-2 border border-primary rounded-md p-2 capitalize"
                         >
                             {text}
