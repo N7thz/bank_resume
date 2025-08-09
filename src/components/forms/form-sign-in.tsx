@@ -8,7 +8,7 @@ import { signIn } from "@/http/sign-in"
 import { queryKeys } from "@/lib/query-keys"
 import { cn } from "@/lib/utils"
 import {
-    FormPasswordSchemaProps, formPasswordSchema
+    FormSignInSchemaProps, formPasswordSchema
 } from "@/schemas/form-sign-in-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
@@ -16,10 +16,11 @@ import { XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { Form } from "./form-root"
+import { InputPassWord } from "../input-password"
 
 export const FormSignIn = () => {
 
-    const form = useForm<FormPasswordSchemaProps>({
+    const form = useForm<FormSignInSchemaProps>({
         resolver: zodResolver(formPasswordSchema)
     })
 
@@ -33,7 +34,9 @@ export const FormSignIn = () => {
 
     const { mutate, isPending } = useMutation({
         mutationKey: queryKeys.signIn(),
-        mutationFn: async (password: string) => signIn(password),
+        mutationFn: async ({
+            email, password
+        }: FormSignInSchemaProps) => signIn({ email, password }),
         onSuccess: () => push("/home"),
         onError: () => toast({
             title: "Senha incorreta",
@@ -41,8 +44,8 @@ export const FormSignIn = () => {
         })
     })
 
-    async function onSubmit({ password }: FormPasswordSchemaProps) {
-        mutate(password)
+    async function onSubmit({ email, password }: FormSignInSchemaProps) {
+        mutate({ email, password })
     }
 
     return (
@@ -53,13 +56,14 @@ export const FormSignIn = () => {
         >
             <CardContent className="space-y-2">
                 <Input
-                    {...register("password")}
+                    {...register("email")}
                     placeholder="Digite sua senha..."
                     className={cn(
-                        errors.password && "not-focus-visible:border-destructive focus-visible:ring-destructive",
+                        errors.email && "not-focus-visible:border-destructive focus-visible:ring-destructive",
                         isValid && "not-focus-visible:border-sucess focus-visible:ring-sucess"
                     )}
                 />
+                <InputPassWord autoComplete="off" />
                 {
                     errors.password &&
                     <div className="flex gap-2 items-center text-base text-destructive">

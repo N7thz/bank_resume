@@ -1,6 +1,7 @@
-import z from "zod"
+import z, { email } from "zod"
 
 export const formPasswordSchema = z.object({
+    email: z.string().email("Email inválido."),
     password: z
         .string()
         .min(6, { message: "A senha deve ter no mínimo 6 caracteres" })
@@ -14,4 +15,4 @@ export const formPasswordSchema = z.object({
         })
 })
 
-export type FormPasswordSchemaProps = z.infer<typeof formPasswordSchema>
+export type FormSignInSchemaProps = z.infer<typeof formPasswordSchema>

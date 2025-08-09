@@ -7,6 +7,7 @@ import {
 import {
     BalanceMonthCard
 } from "@/components/balance-month-card/balance-month-card"
+import { Loading } from "@/components/loadings/home-loading"
 import {
     Card,
     CardContent,
@@ -21,9 +22,7 @@ export default function Home() {
 
     const { balance, isLoading } = useFindBalance()
 
-    if (isLoading || !balance) {
-        return <div>Loading...</div>
-    }
+    if (isLoading || !balance) return <Loading />
 
     const { spent: spents } = balance
 

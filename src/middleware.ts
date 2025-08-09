@@ -1,69 +1,67 @@
+import { decrypt } from "@/lib/auth"
 import type { MiddlewareConfig, NextRequest } from "next/server"
 import { NextResponse } from "next/server"
-import { cookies as Cookies } from "next/headers"
 
 const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = "/sign-in"
+const DEFAULT_AUTHENTICATED_REDIRECT = "/home"
 
 export const publicRoutes = [
 	{ path: "/sign-in", whenAuthenticated: "redirect" },
-	{ path: "/create-account", whenAuthenticated: "redirect" },
-	{ path: "/home", whenAuthenticated: "next" },
-	{ path: "/balance", whenAuthenticated: "next" },
-	{ path: "/spents/", whenAuthenticated: "next" },
 ] as const
 
 export async function middleware(request: NextRequest) {
-
-	const cookies = await Cookies()
 	const path = request.nextUrl.pathname
-	const publicRoute = publicRoutes.find((route) => route.path === path)
-	const authToken = request.cookies.get("token")
+	const publicRoute = publicRoutes.find((route) => path.startsWith(route.path))
+	const token = request.cookies.get("token")?.value
 
-	if (path === "/") {
-
-		const redirectUrl = request.nextUrl.clone()
-
-		redirectUrl.pathname = "/home"
-
-		return NextResponse.redirect(redirectUrl)
+	if (path.startsWith("/sign-in") && token) {
+		try {
+			const payload = await decrypt(token)
+			if (payload) {
+		
+				return NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_REDIRECT, request.url))
+			}
+		} catch (error) {
+			console.error("Token verification failed:", error)
+	
+		}
 	}
 
-	if (!authToken && publicRoute) {
-		cookies.delete("token")
+	if (publicRoute) {
+		if (token && publicRoute.whenAuthenticated === "redirect") {
+			return NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_REDIRECT, request.url))
+		}
 		return NextResponse.next()
 	}
 
-	if (!authToken && !publicRoute) {
-
-		cookies.delete("token")
-
-		const redirectUrl = request.nextUrl.clone()
-
-		redirectUrl.pathname = REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE
-
-		return NextResponse.redirect(redirectUrl)
+	if (!token) {
+		return redirectToSignIn(request)
 	}
 
-	if (
-		authToken &&
-		publicRoute &&
-		publicRoute.whenAuthenticated === "redirect"
-	) {
-		const redirectUrl = request.nextUrl.clone()
+	try {
+		const payload = await decrypt(token)
+		if (!payload) {
+			return redirectToSignIn(request)
+		}
 
-		redirectUrl.pathname = "/home"
+		const requestHeaders = new Headers(request.headers)
+		requestHeaders.set("x-user-email", payload.email as string)
 
-		return NextResponse.redirect(redirectUrl)
+		return NextResponse.next({
+			request: {
+				headers: requestHeaders,
+			},
+		})
+	} catch (error) {
+		console.error("Token verification failed:", error)
+		return redirectToSignIn(request)
 	}
+}
 
-	if (authToken && !publicRoute) {
-
-		const redirectUrl = request.nextUrl.clone()
-
-		return NextResponse.redirect(redirectUrl)
-	}
-
-	return NextResponse.next()
+function redirectToSignIn(request: NextRequest) {
+	const redirectUrl = new URL(REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE, request.url)
+	redirectUrl.searchParams.set("from", request.nextUrl.pathname)
+	return NextResponse.redirect(redirectUrl)
 }
 
 export const config: MiddlewareConfig = {
