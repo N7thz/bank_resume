@@ -50,7 +50,10 @@ export const Loading = () => {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button className="w-full">
+                        <Button
+                            disabled
+                            className="w-full"
+                        >
                             Editar valores recebidos
                         </Button>
                     </CardFooter>
@@ -61,7 +64,10 @@ export const Loading = () => {
                             Gastos do mês
                         </CardTitle>
                         <CardAction>
-                            <Button className="w-full">
+                            <Button
+                                disabled
+                                className="w-full"
+                            >
                                 Adicionar gastos
                             </Button>
                         </CardAction>
@@ -73,7 +79,10 @@ export const Loading = () => {
                                     <Skeleton className="h-4 w-3/12 rounded-xl" />
                                 </CardTitle>
                                 <CardAction>
-                                    <Button variant={"outline"}>
+                                    <Button
+                                        disabled
+                                        variant={"outline"}
+                                    >
                                         <Ellipsis />
                                     </Button>
                                 </CardAction>

@@ -53,8 +53,8 @@ export const FormRegisterSpent = () => {
 		})
 	})
 
-	function onSubmit(data: FormRegisterSpentProps) {
-		mutate(data)
+	function onSubmit(formData: FormRegisterSpentProps) {
+		mutate(formData)
 	}
 
 	return (

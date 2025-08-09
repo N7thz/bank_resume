@@ -1,5 +1,7 @@
 "use client"
 
+import { Form } from "@/components/forms/form-root"
+import { InputPassWord } from "@/components/input-password"
 import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
@@ -15,8 +17,6 @@ import { useMutation } from "@tanstack/react-query"
 import { XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { Form } from "./form-root"
-import { InputPassWord } from "../input-password"
 
 export const FormSignIn = () => {
 
@@ -44,8 +44,8 @@ export const FormSignIn = () => {
         })
     })
 
-    async function onSubmit({ email, password }: FormSignInSchemaProps) {
-        mutate({ email, password })
+    async function onSubmit(formData: FormSignInSchemaProps) {
+        mutate(formData)
     }
 
     return (
