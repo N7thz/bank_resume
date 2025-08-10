@@ -47,24 +47,25 @@ export const SheetAvatar = () => {
                     <div className="space-y-2 px-2">
                         {
                             routes.map(({ Icon, href, text }) => (
-                                <Link
+                                <Button
                                     key={href}
-                                    href={href}
-                                    className="flex gap-2"
-                                    onNavigate={onNavigate}
+                                    asChild
+                                    variant={
+                                        pathname.startsWith(href)
+                                            ? "default"
+                                            : "secondary"
+                                    }
+                                    className="w-full"
                                 >
-                                    <Button
-                                        className="w-full"
-                                        variant={
-                                            pathname.startsWith(href)
-                                                ? "default"
-                                                : "secondary"
-                                        }
+                                    <Link
+                                        href={href}
+                                        className="flex gap-2"
+                                        onNavigate={onNavigate}
                                     >
                                         {text}
                                         <Icon />
-                                    </Button>
-                                </Link>
+                                    </Link>
+                                </Button>
                             ))
                         }
                     </div>
