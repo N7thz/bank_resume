@@ -14,16 +14,25 @@ export async function middleware(request: NextRequest) {
 	const publicRoute = publicRoutes.find((route) => path.startsWith(route.path))
 	const token = request.cookies.get("token")?.value
 
+	if (path === "/") {
+
+		const redirectUrl = request.nextUrl.clone()
+
+		redirectUrl.pathname = DEFAULT_AUTHENTICATED_REDIRECT
+
+		return NextResponse.redirect(redirectUrl)
+	}
+
 	if (path.startsWith("/sign-in") && token) {
 		try {
 			const payload = await decrypt(token)
 			if (payload) {
-		
+
 				return NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_REDIRECT, request.url))
 			}
 		} catch (error) {
 			console.error("Token verification failed:", error)
-	
+
 		}
 	}
 
