@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils"
 
 export const HomeClient = () => {
 
-    const { balance, isLoading } = useFindBalance()
+    const { balance, isLoading } = useFindBalance({})
 
     if (isLoading || !balance) return <Loading />
 

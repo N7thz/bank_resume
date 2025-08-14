@@ -2,10 +2,15 @@ import { getBalance } from "@/http/balances"
 import { queryKeys } from "@/lib/query-keys"
 import { useQuery } from "@tanstack/react-query"
 
-export function useFindBalance() {
+type FindBalanceProps = {
+    year?: number
+    month?: number
+}
 
-    const year = new Date().getFullYear()
-    const month = new Date().getMonth()
+export function useFindBalance({
+    month = new Date().getMonth(),
+    year = new Date().getFullYear()
+}: FindBalanceProps) {
 
     const { data: balance, ...data } = useQuery({
         queryKey: queryKeys.findBalance(),

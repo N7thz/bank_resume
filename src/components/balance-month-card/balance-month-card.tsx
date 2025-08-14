@@ -1,10 +1,16 @@
-import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardAction,
+    CardContent,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
 import { Spent } from "@prisma/client"
 import Link from "next/link"
 import { ComponentProps } from "react"
-import { Button } from "../ui/button"
 import { BalanceMonthCardItem } from "./balance-month-card-item"
 
 type BalanceMonthCardProps = ComponentProps<typeof Card> & {

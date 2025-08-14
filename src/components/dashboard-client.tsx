@@ -1,73 +1,74 @@
 "use client"
 
-import { useFindBalance } from "@/hooks/use-find-balance"
-import { GraphicColumns } from "./graphics/graphic-columns"
-import { GraphicLine } from "./graphics/graphic-line"
+import { GraphicColumns } from "@/components/graphics/graphic-columns"
+import { GraphicLine } from "@/components/graphics/graphic-line"
+import { GraphicNotLentgh } from "@/components/graphics/graphic-not-lentgh"
+import { GraphicsNotFound } from "@/components/graphics/graphics-not-found"
+import { Pagination } from "@/components/pagination"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardAction,
-  CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle
-} from "./ui/card"
-import { Skeleton } from "./ui/skeleton"
-import { Button } from "./ui/button"
+} from "@/components/ui/card"
+import { useFindBalance } from "@/hooks/use-find-balance"
+import { cn } from "@/lib/utils"
+import { formatDate } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import Link from "next/link"
 
-export const DashboardClient = ({ type }: { type: "columns" | "line" }) => {
-
-  const { balance } = useFindBalance()
-
-  if (!balance) {
-    return (
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>
-            <Skeleton className="w-1/4" />
-          </CardTitle>
-          <CardAction>
-            <Button disabled variant={"ghost"}>
-              Alterar estilo do grafico
-            </Button>
-          </CardAction>
-        </CardHeader>
-        <CardContent className="h-[500px]">
-          <Skeleton className="size-full" />
-        </CardContent>
-      </Card>
-    )
+type DashboardClientProps = {
+  data: {
+    type: "columns" | "line"
+    year: number
+    month: number
   }
+}
 
-  if (balance.spent.length === 0) {
-    return (
-      <Card className="w-1/2">
-        <CardHeader>
-          <CardTitle>
-            Gastos Mensais
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="mx-auto text-2xl text-muted-foreground">
-          Sem gastos neste mês
-        </CardContent>
-        <CardFooter>
-          <Button asChild className="w-full">
-            <Link href={"/home"}>
-              Voltar a Home
-            </Link>
-          </Button>
-        </CardFooter>
-      </Card>
-    )
-  }
+export const DashboardClient = ({ data }: DashboardClientProps) => {
 
-  if (type === "columns") {
-    return (
-      <GraphicColumns spents={balance.spent} />
-    )
-  }
+  const { month, year } = data
+
+  const { balance } = useFindBalance({ month, year })
+
+  if (!balance) return <GraphicsNotFound />
+
+  if (balance.spent.length === 0) return <GraphicNotLentgh />
+
+  const { spent: spents } = balance
+
+  const date = balance.spent[0].date
+  const type = data.type === "columns" ? "line" : "columns"
+  const href = `/dashboard?type=${type}&year=${year}&month=${month}`
 
   return (
-    <GraphicLine spents={balance.spent} />
+    <Card className={cn(type === "columns" && "size-full")}>
+      <CardHeader>
+        <CardTitle>
+          Gastos Mensais
+        </CardTitle>
+        <CardDescription className="capitalize text-base">
+          {formatDate(date, "MMMM - yyyy", { locale: ptBR })}
+        </CardDescription>
+        <CardAction>
+          <Button variant={"secondary"} asChild>
+            <Link href={href}>
+              Alterar estilo do grafico
+            </Link>
+          </Button>
+        </CardAction>
+      </CardHeader>
+      {
+        type === "columns"
+          ? <GraphicColumns spents={spents} />
+          : <GraphicLine spents={spents} />
+      }
+      <CardFooter className="mt-2 text-sm text-gray-500">
+        <Pagination />
+      </CardFooter>
+    </Card>
   )
 }

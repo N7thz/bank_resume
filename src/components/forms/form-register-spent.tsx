@@ -7,6 +7,7 @@ import { SelectCategory } from "@/components/select-category"
 import { SelectPayMode } from "@/components/select-pay-mode"
 import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useFindBalance } from "@/hooks/use-find-balance"
@@ -19,11 +20,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { Checkbox } from "../ui/checkbox"
 
 export const FormRegisterSpent = () => {
 
-	const { balance } = useFindBalance()
+	const { balance } = useFindBalance({})
 
 	const form = useForm<FormRegisterSpentProps>({
 		resolver: zodResolver(formRegisterSpentSchema),

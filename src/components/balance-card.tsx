@@ -1,4 +1,10 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { formatAmount } from "@/functions/format-amount"
@@ -7,6 +13,7 @@ import { cn } from "@/lib/utils"
 import { CheckCircle, Info, XCircle } from "lucide-react"
 import { ComponentProps, useEffect, useState } from "react"
 import { DialogEditBalance } from "./dialog-edit-balance"
+import Image from "next/image"
 
 type BalanceCardProps = ComponentProps<typeof Card> & {
     balance: BalanceWithSpent
@@ -17,12 +24,12 @@ export const BalanceCard = ({
         id,
         balance,
         spent: spents
-    }, className, ...props
+    },
+    className,
+    ...props
 }: BalanceCardProps) => {
 
     const [totalValue, setTotalValue] = useState(0)
-
-    const amount = formatAmount(balance)
 
     useEffect(() => {
         const total = spents.reduce((acc, spent) => acc + spent.amount, 0)
@@ -33,9 +40,7 @@ export const BalanceCard = ({
         return (totalValue / balance) * 100
     }
 
-    const percentage = returnPercentage(balance, totalValue)
-
-    const remainingValue = () => {
+    function remainingValue() {
 
         const value = balance - totalValue
 
@@ -47,6 +52,9 @@ export const BalanceCard = ({
 
         return `Você está devendo ${formatAmount(Math.abs(value))}.`
     }
+
+    const percentage = returnPercentage(balance, totalValue)
+    const amount = formatAmount(balance)
 
     return (
         <Card
@@ -67,12 +75,11 @@ export const BalanceCard = ({
                 </div>
                 <Separator />
                 <div className="text-base flex items-center gap-1">
-                    {
-                        percentage < 50
-                            ? <CheckCircle className="text-sucess size-4" />
-                            : (percentage > 50 && percentage < 80)
-                                ? <Info className="text-amber-400 size-4" />
-                                : <XCircle className="text-destructive size-4" />
+                    {percentage < 50
+                        ? <CheckCircle className="text-sucess size-4" />
+                        : (percentage > 50 && percentage < 80)
+                            ? <Info className="text-amber-400 size-4" />
+                            : <XCircle className="text-destructive size-4" />
                     }
                     <span className={cn(
                         "mr-2",
@@ -95,6 +102,20 @@ export const BalanceCard = ({
                             : "text-destructive"
                 )}>
                     {remainingValue()}
+                </div>
+                <div className="w-full rounded-md border-2 border-border flex items-center justify-center mx-auto overflow-hidden">
+                    <Image
+                        src={percentage < 50
+                            ? "/money-ok.gif"
+                            : (percentage > 50 && percentage < 80)
+                                ? "/money-mid.gif"
+                                : "/money-low.gif"
+                        }
+                        width={300}
+                        height={300}
+                        alt={"image-value-example"}
+                        className="size-full"
+                    />
                 </div>
             </CardContent>
             <CardFooter>

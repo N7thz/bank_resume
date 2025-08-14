@@ -1,30 +1,42 @@
 import { DashboardClient } from "@/components/dashboard-client"
-import { Card } from "@/components/ui/card"
 import { Metadata } from "next"
 import { redirect, RedirectType } from "next/navigation"
-import z from "zod"
+import z, { formatError } from "zod"
 
 export const metadata: Metadata = {
     title: "Bank Resume | Dashboard"
 }
 
 const dashboardSchema = z.object({
-    type: z.enum(["columns", "line"])
+    type: z.enum(["columns", "line"]),
+    year: z.string({ error: "Ano inválido" }).transform(Number),
+    month: z.string({ error: "Mês inválido" }).transform(Number),
 })
 
 export default async function Dashboard({
     searchParams
 }: {
-    searchParams: Promise<{ type: "columns" | "line" | undefined }>
+    searchParams: Promise<{
+        type: "columns" | "line",
+        year: string,
+        month: string
+    }>
 }) {
 
-    const { type } = await searchParams
+    const {
+        success,
+        data,
+    } = dashboardSchema.safeParse(await searchParams)
 
-    const { success } = dashboardSchema.safeParse({ type })
+    if (!success) {
 
-    if (!type || !success) {
-        redirect("/dashboard?type=columns", RedirectType.replace)
+        const year = new Date().getFullYear()
+        const month = new Date().getMonth()
+
+        const url = `/dashboard?type=columns&year=${year}&month=${month}`
+
+        return redirect(url, RedirectType.replace)
     }
 
-    return <DashboardClient type={type} />
+    return <DashboardClient data={data}  />
 }
