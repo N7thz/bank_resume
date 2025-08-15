@@ -20,7 +20,7 @@ import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import Link from "next/link"
 
-type DashboardClientProps = {
+export type DashboardClientProps = {
   data: {
     type: "columns" | "line"
     year: number
@@ -36,7 +36,7 @@ export const DashboardClient = ({ data }: DashboardClientProps) => {
 
   if (!balance) return <GraphicsNotFound />
 
-  if (balance.spent.length === 0) return <GraphicNotLentgh />
+  if (balance.spent.length === 0) return <GraphicNotLentgh data={data} />
 
   const { spent: spents } = balance
 
@@ -67,7 +67,7 @@ export const DashboardClient = ({ data }: DashboardClientProps) => {
           : <GraphicLine spents={spents} />
       }
       <CardFooter className="mt-2 text-sm text-gray-500">
-        <Pagination />
+        <Pagination data={data} />
       </CardFooter>
     </Card>
   )

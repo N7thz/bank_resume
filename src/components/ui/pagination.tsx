@@ -39,11 +39,13 @@ function PaginationItem({ ...props }: React.ComponentProps<"li">) {
 }
 
 type PaginationLinkProps = {
+  variant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined
   isActive?: boolean
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<typeof Link>
 
 function PaginationLink({
+  variant,
   className,
   isActive,
   size = "icon",
@@ -56,7 +58,7 @@ function PaginationLink({
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? "outline" : "ghost",
+          variant: isActive ? variant : "ghost",
           size,
         }),
         className
@@ -67,6 +69,7 @@ function PaginationLink({
 }
 
 function PaginationPrevious({
+  children,
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
@@ -78,12 +81,15 @@ function PaginationPrevious({
       {...props}
     >
       <ChevronLeftIcon />
-      <span className="hidden sm:block">Previous</span>
+      <span className="hidden sm:block">
+        {children}
+      </span>
     </PaginationLink>
   )
 }
 
 function PaginationNext({
+  children,
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
@@ -94,7 +100,9 @@ function PaginationNext({
       className={cn("gap-1 px-2.5 sm:pr-2.5", className)}
       {...props}
     >
-      <span className="hidden sm:block">Next</span>
+      <span className="hidden sm:block">
+        {children}
+      </span>
       <ChevronRightIcon />
     </PaginationLink>
   )

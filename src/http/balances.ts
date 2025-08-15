@@ -1,5 +1,6 @@
 import { Balance, Spent } from "@prisma/client"
 import api from "."
+import { YearMonthProps } from "@/@types"
 
 export type BalanceWithSpent = (Balance & {
     spent: Spent[]
@@ -7,7 +8,7 @@ export type BalanceWithSpent = (Balance & {
 
 export async function getBalance({
     year, month
-}: { year: number, month: number }) {
+}: YearMonthProps) {
 
     const url = `/balance?year=${year}&month=${month}`
 

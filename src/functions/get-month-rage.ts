@@ -1,9 +1,6 @@
-type MonthRange = {
-    year: number
-    month: number
-}
+import { YearMonthProps } from "@/@types"
 
-export function getMonthRange({ month, year }: MonthRange) {
+export function getMonthRange({ month, year }: YearMonthProps) {
 
     const startDate = new Date(year, month, 1)
 

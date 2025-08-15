@@ -10,3 +10,8 @@ export type Balance = {
     }
     spent: Spent[]
 }
+
+export type YearMonthProps = {
+    year: number
+    month: number
+}
