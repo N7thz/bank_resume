@@ -43,7 +43,7 @@ export const FormEditBalance = ({
             description: "Gasto registrado com sucesso!",
             onAutoClose: async () => {
                 await queryClient.invalidateQueries({
-                    queryKey: queryKeys.findBalance()
+                    queryKey: queryKeys.findBalance({})
                 })
                 setOpen(false)
             }

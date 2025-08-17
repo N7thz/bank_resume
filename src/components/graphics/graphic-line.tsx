@@ -35,7 +35,7 @@ export function GraphicLine({ spents }: { spents: Spent[] }) {
         spents.forEach(spent => {
 
             const date = parseISO(spent.date.toString())
-            const dayKey = formatDate(date, 'dd/MM', { locale: ptBR })
+            const dayKey = formatDate(date, "dd/MM", { locale: ptBR })
 
             const dayData = dailyMap.get(dayKey) || { amount: 0, count: 0 }
             dailyMap.set(dayKey, {
@@ -52,8 +52,8 @@ export function GraphicLine({ spents }: { spents: Spent[] }) {
             }))
             .sort((a, b) => {
 
-                const [dayA, monthA] = a.day.split('/')
-                const [dayB, monthB] = b.day.split('/')
+                const [dayA, monthA] = a.day.split("/")
+                const [dayB, monthB] = b.day.split("/")
                 const dateA = new Date(new Date().getFullYear(), parseInt(monthA) - 1, parseInt(dayA))
                 const dateB = new Date(new Date().getFullYear(), parseInt(monthB) - 1, parseInt(dayB))
                 return dateA.getTime() - dateB.getTime()
@@ -77,13 +77,13 @@ export function GraphicLine({ spents }: { spents: Spent[] }) {
                             dataKey="day"
                             tickLine={false}
                             axisLine={false}
-                            tick={{ fill: '#6b7280', fontSize: 12 }}
+                            tick={{ fill: "#6b7280", fontSize: 12 }}
                             tickMargin={10}
                         />
                         <YAxis
                             tickLine={false}
                             axisLine={false}
-                            tick={{ fill: '#6b7280', fontSize: 12 }}
+                            tick={{ fill: "#6b7280", fontSize: 12 }}
                             tickFormatter={(value) => `R$ ${value}`}
                             width={80}
                         />
@@ -117,7 +117,7 @@ export function GraphicLine({ spents }: { spents: Spent[] }) {
                                 position="top"
                                 formatter={(value: number) => `R$ ${value.toFixed(2)}`}
                                 style={{
-                                    fill: 'var(--color-primary)',
+                                    fill: "var(--color-primary)",
                                     fontSize: 12,
                                     fontWeight: 500
                                 }}

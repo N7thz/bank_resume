@@ -6,7 +6,7 @@ import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { signIn } from "@/http/sign-in"
+import { createuser } from "@/http/user"
 import { queryKeys } from "@/lib/query-keys"
 import { cn } from "@/lib/utils"
 import {
@@ -18,9 +18,8 @@ import { XCircle } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { Separator } from "../ui/separator"
 
-export const FormSignIn = () => {
+export const FormCreateUser = () => {
 
     const form = useForm<FormSignInSchemaProps>({
         resolver: zodResolver(formPasswordSchema)
@@ -38,11 +37,16 @@ export const FormSignIn = () => {
         mutationKey: queryKeys.signIn(),
         mutationFn: async ({
             email, password
-        }: FormSignInSchemaProps) => signIn({ email, password }),
-        onSuccess: () => push("/home"),
+        }: FormSignInSchemaProps) => createuser({ email, password }),
+        onSuccess: () => toast({
+            title: "Sucesso",
+            description: "O usuário foi criado com sucesso",
+            onAutoClose: () => push("/sign-in")
+        }),
         onError: () => toast({
-            title: "Senha incorreta",
-            description: "A senha está incorreta."
+            variant: "error",
+            title: "Error",
+            description: "Você já possui um usuário cadastrado"
         })
     })
 
@@ -65,6 +69,15 @@ export const FormSignIn = () => {
                         isValid && "not-focus-visible:border-sucess focus-visible:ring-sucess"
                     )}
                 />
+                {
+                    errors.email &&
+                    <div className="flex gap-2 items-center text-base text-destructive">
+                        <XCircle className="size-4" />
+                        <span className="italic font-semibold">
+                            {errors.email.message}
+                        </span>
+                    </div>
+                }
                 <InputPassWord autoComplete="off" />
                 {
                     errors.password &&
@@ -74,7 +87,6 @@ export const FormSignIn = () => {
                             {errors.password.message}
                         </span>
                     </div>
-
                 }
             </CardContent>
             <Button
@@ -82,8 +94,8 @@ export const FormSignIn = () => {
                 variant={"link"}
                 className="mx-auto w-full"
             >
-                <Link href={"/create-user"}>
-                    Criar conta
+                <Link href={"/sign-in"}>
+                    Login
                 </Link>
             </Button>
             <CardFooter>

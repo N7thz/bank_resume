@@ -34,7 +34,7 @@ export function GraphicColumns({ spents }: { spents: Spent[] }) {
         spents.forEach(spent => {
 
             const date = parseISO(spent.date.toString())
-            const dayKey = formatDate(date, 'dd/MM', { locale: ptBR })
+            const dayKey = formatDate(date, "dd/MM", { locale: ptBR })
 
             const dayData = dailyMap.get(dayKey) || { amount: 0, count: 0 }
             dailyMap.set(dayKey, {
@@ -51,8 +51,8 @@ export function GraphicColumns({ spents }: { spents: Spent[] }) {
             }))
             .sort((a, b) => {
 
-                const [dayA, monthA] = a.day.split('/')
-                const [dayB, monthB] = b.day.split('/')
+                const [dayA, monthA] = a.day.split("/")
+                const [dayB, monthB] = b.day.split("/")
                 const dateA = new Date(new Date().getFullYear(), parseInt(monthA) - 1, parseInt(dayA))
                 const dateB = new Date(new Date().getFullYear(), parseInt(monthB) - 1, parseInt(dayB))
                 return dateA.getTime() - dateB.getTime()
@@ -72,13 +72,13 @@ export function GraphicColumns({ spents }: { spents: Spent[] }) {
                         dataKey="day"
                         tickLine={false}
                         axisLine={false}
-                        tick={{ fill: '#6b7280', fontSize: 12 }}
+                        tick={{ fill: "#6b7280", fontSize: 12 }}
                         tickMargin={8}
                     />
                     <YAxis
                         tickLine={false}
                         axisLine={false}
-                        tick={{ fill: '#6b7280', fontSize: 12 }}
+                        tick={{ fill: "#6b7280", fontSize: 12 }}
                         tickFormatter={(value) => `R$ ${value}`}
                         width={80}
                     />
@@ -92,9 +92,9 @@ export function GraphicColumns({ spents }: { spents: Spent[] }) {
                         content={
                             <ChartLegendContent
                                 payload={[{
-                                    value: 'Valor Gasto',
-                                    type: 'circle',
-                                    color: 'var(--color-primary)'
+                                    value: "Valor Gasto",
+                                    type: "circle",
+                                    color: "var(--color-primary)"
                                 }]}
                             />
                         }

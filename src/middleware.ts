@@ -7,6 +7,7 @@ const DEFAULT_AUTHENTICATED_REDIRECT = "/home"
 
 export const publicRoutes = [
 	{ path: "/sign-in", whenAuthenticated: "redirect" },
+	{ path: "/create-user", whenAuthenticated: "redirect" },
 ] as const
 
 export async function middleware(request: NextRequest) {

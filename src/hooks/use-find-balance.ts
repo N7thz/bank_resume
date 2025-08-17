@@ -13,7 +13,7 @@ export function useFindBalance({
 }: FindBalanceProps) {
 
     const { data: balance, ...data } = useQuery({
-        queryKey: queryKeys.findBalance(),
+        queryKey: queryKeys.findBalance({ year, month }),
         queryFn: async () => getBalance({ year, month }),
     })
 

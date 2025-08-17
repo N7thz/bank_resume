@@ -27,7 +27,7 @@ export const HomeClient = () => {
     const { spent: spents } = balance
 
     return (
-        <Card className="w-full rounded-md">
+        <Card className="size-full rounded-md">
             <CardHeader>
                 <CardTitle className="text-2xl">
                     Bank Resume
@@ -36,7 +36,7 @@ export const HomeClient = () => {
                     Resumo dos gastos feitos no mês
                 </CardDescription>
             </CardHeader>
-            <CardContent className={cn("flex gap-4", "max-md:flex-col")}>
+            <CardContent className={cn("size-full flex gap-4", "max-md:flex-col")}>
                 <BalanceCard
                     balance={balance}
                     className="max-md:w-full"

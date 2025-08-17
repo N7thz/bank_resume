@@ -105,6 +105,7 @@ export const BalanceCard = ({
                 </div>
                 <div className="w-full rounded-md border-2 border-border flex items-center justify-center mx-auto overflow-hidden">
                     <Image
+                        unoptimized
                         src={percentage < 50
                             ? "/money-ok.gif"
                             : (percentage > 50 && percentage < 80)

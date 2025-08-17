@@ -2,6 +2,11 @@ import {
     Card, CardHeader, CardTitle
 } from "@/components/ui/card"
 import { FormSignIn } from "@/components/forms/form-sign-in"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Bank Resume | Sign-in"
+}
 
 export default function signIn() {
     return (

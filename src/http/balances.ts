@@ -1,10 +1,5 @@
-import { Balance, Spent } from "@prisma/client"
+import { BalanceWithSpent, YearMonthProps } from "@/@types"
 import api from "."
-import { YearMonthProps } from "@/@types"
-
-export type BalanceWithSpent = (Balance & {
-    spent: Spent[]
-})
 
 export async function getBalance({
     year, month

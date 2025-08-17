@@ -6,6 +6,6 @@ export const Header = () => {
 		<header className="bg-card h-18 w-full flex justify-between items-center border-b border-border px-2 py-1">
 			<SheetAvatar />
 			<ModeToggle />
-		</header>
+		</header>	
 	)
 }

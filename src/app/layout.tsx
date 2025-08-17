@@ -1,7 +1,6 @@
-import type { Metadata } from "next"
-import { Header } from "@/components/header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
+import type { Metadata } from "next"
 import { Fira_Code } from "next/font/google"
 import "./globals.css"
 
@@ -25,11 +24,8 @@ export default function RootLayout({
 					defaultTheme="system"
 				>
 					<Toaster />
-					<div className="flex flex-col h-dvh">
-						<Header />
-						<div className="flex items-center justify-center p-8 size-full">
-							{children}
-						</div>
+					<div className="h-dvh flex items-center justify-center">
+						{children}
 					</div>
 				</ThemeProvider>
 			</body>

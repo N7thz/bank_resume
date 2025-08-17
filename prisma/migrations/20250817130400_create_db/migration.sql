@@ -1,8 +1,17 @@
 -- CreateEnum
-CREATE TYPE "public"."Category" AS ENUM ('FOOD', 'TRANSPORT', 'ENTERTAINMENT', 'BILLS', 'OTHER');
+CREATE TYPE "public"."Category" AS ENUM ('FOOD', 'TRANSPORT', 'ENTERTAINMENT', 'BILLS', 'SHOPPING', 'HEALTH', 'EDUCATION', 'OTHER');
 
 -- CreateEnum
-CREATE TYPE "public"."PayMode" AS ENUM ('PIX', 'CARD', 'OTHER');
+CREATE TYPE "public"."PayMode" AS ENUM ('PIX', 'CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'BANK_TRANSFER', 'OTHER');
+
+-- CreateTable
+CREATE TABLE "public"."users" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "public"."balances" (
@@ -21,12 +30,16 @@ CREATE TABLE "public"."spents" (
     "time" TEXT NOT NULL,
     "description" TEXT,
     "amount" DOUBLE PRECISION NOT NULL,
+    "recurring_expense" BOOLEAN NOT NULL DEFAULT false,
     "category" "public"."Category" NOT NULL,
     "pay_mode" "public"."PayMode" NOT NULL,
     "balanceId" TEXT,
 
     CONSTRAINT "spents_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "public"."users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "balances_period_key" ON "public"."balances"("period");

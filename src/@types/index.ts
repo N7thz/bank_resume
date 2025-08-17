@@ -1,5 +1,9 @@
 import { Spent } from "@prisma/client"
 
+export type BalanceWithSpent = (Balance & {
+    spent: Spent[]
+})
+
 export type Balance = {
     id: string
     balance: number
